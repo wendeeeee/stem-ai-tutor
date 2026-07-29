@@ -34,6 +34,7 @@
     "evidence:capture": "PLAYWRIGHT_BROWSERS_PATH=0 node evidence/scripts/capture-evidence.mjs"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "concurrently": "^9.2.1",
     "playwright": "^1.55.0"
   }
