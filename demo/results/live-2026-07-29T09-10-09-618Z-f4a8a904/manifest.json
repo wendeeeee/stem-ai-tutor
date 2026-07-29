@@ -1,10 +1,10 @@
 {
-  "evaluationRunId": "mock-2026-07-24T15-14-38-208Z-ce574972",
-  "timestamp": "2026-07-24T15:14:38.208Z",
-  "mode": "mock",
+  "evaluationRunId": "live-2026-07-29T09-10-09-618Z-f4a8a904",
+  "timestamp": "2026-07-29T09:10:09.618Z",
+  "mode": "live",
   "git": {
-    "commit": "uncommitted-no-head",
-    "dirty": true
+    "commit": "9b375481c7113b1a9f6e97793598a6a33fca1902",
+    "dirty": false
   },
   "applicationVersion": "0.1.0",
   "fixtureVersion": "1.0.0",
@@ -43,24 +43,34 @@
     "embedding": "text-embedding-3-small",
     "asr": "gpt-4o-mini-transcribe-2025-12-15",
     "tts": {
-      "provider": "yarngpt",
+      "provider": "naijalingo",
       "apiVersion": "v1",
-      "voice": "Chinenye",
-      "format": "mp3"
+      "model": "9jalingo-tts-1",
+      "voiceId": "ada_pcm",
+      "voice": "ada_pcm",
+      "format": "wav",
+      "pricingVersion": "unconfigured",
+      "pricingCurrency": "NGN",
+      "pricingEffectiveDate": null,
+      "ratePerThousandCharacters": null,
+      "maxInputCharacters": 8000
     }
   },
   "pricing": {
-    "version": "unconfigured-2026-07-24",
+    "version": "unconfigured",
     "currency": "NGN",
     "effectiveDate": null,
     "rateConfigured": false,
     "unit": "per_1000_characters",
-    "costUnavailable": true
+    "costUnavailable": true,
+    "ratePerThousandCharacters": null,
+    "estimateOnly": true
   },
   "relevantConfiguration": {
     "language": "en",
-    "yarnGptMaxInputCharacters": 2000,
-    "yarnGptTimeoutMs": 30000,
-    "noSecretsIncluded": true
+    "ttsProvider": "naijalingo",
+    "ttsMaxInputCharacters": 8000,
+    "noSecretsIncluded": true,
+    "externalCallsMade": true
   }
 }

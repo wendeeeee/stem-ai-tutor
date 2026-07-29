@@ -1,5 +1,5 @@
 {
-  "evaluationRunId": "mock-2026-07-24T15-03-48-437Z-91f1463c",
+  "evaluationRunId": "live-2026-07-29T09-10-09-618Z-f4a8a904",
   "reviewStatus": "not_reviewed",
   "reviewer": null,
   "reviewedAt": null,
@@ -7,7 +7,7 @@
   "completedAnswers": [
     {
       "fixtureId": "supported-sound-speed-01",
-      "tutorRunId": "00000000-0000-4000-8000-000000000001",
+      "tutorRunId": "b4972656-3af1-4f1c-82c9-43c6e453f58b",
       "materialClaimsSupported": null,
       "originalQuestionAnswered": null,
       "citationsIdentifyRelevantPassages": null,
@@ -18,7 +18,7 @@
     },
     {
       "fixtureId": "supported-resistance-02",
-      "tutorRunId": "00000000-0000-4000-8000-000000000002",
+      "tutorRunId": "9fc5fe3c-4672-40b9-a8d5-d19ffc0417a3",
       "materialClaimsSupported": null,
       "originalQuestionAnswered": null,
       "citationsIdentifyRelevantPassages": null,
@@ -29,18 +29,7 @@
     },
     {
       "fixtureId": "supported-physical-change-03",
-      "tutorRunId": "00000000-0000-4000-8000-000000000003",
-      "materialClaimsSupported": null,
-      "originalQuestionAnswered": null,
-      "citationsIdentifyRelevantPassages": null,
-      "unsupportedExternalFactsAbsent": null,
-      "secondarySchoolLanguageSuitable": null,
-      "analogiesClearlyIdentified": null,
-      "notes": null
-    },
-    {
-      "fixtureId": "supported-si-units-04",
-      "tutorRunId": "00000000-0000-4000-8000-000000000004",
+      "tutorRunId": "3725949a-67d7-45f8-b107-c27d5a327461",
       "materialClaimsSupported": null,
       "originalQuestionAnswered": null,
       "citationsIdentifyRelevantPassages": null,
@@ -51,7 +40,7 @@
     },
     {
       "fixtureId": "supported-cell-units-05",
-      "tutorRunId": "00000000-0000-4000-8000-000000000005",
+      "tutorRunId": "334fb6f4-07c4-4609-96df-9d7841fdd9ae",
       "materialClaimsSupported": null,
       "originalQuestionAnswered": null,
       "citationsIdentifyRelevantPassages": null,
@@ -62,18 +51,7 @@
     },
     {
       "fixtureId": "supported-potential-energy-06",
-      "tutorRunId": "00000000-0000-4000-8000-000000000006",
-      "materialClaimsSupported": null,
-      "originalQuestionAnswered": null,
-      "citationsIdentifyRelevantPassages": null,
-      "unsupportedExternalFactsAbsent": null,
-      "secondarySchoolLanguageSuitable": null,
-      "analogiesClearlyIdentified": null,
-      "notes": null
-    },
-    {
-      "fixtureId": "misspelling-kinetic-formula-09",
-      "tutorRunId": "00000000-0000-4000-8000-000000000009",
+      "tutorRunId": "108c9bad-8769-4940-8e4c-d3e08a5a93f6",
       "materialClaimsSupported": null,
       "originalQuestionAnswered": null,
       "citationsIdentifyRelevantPassages": null,
