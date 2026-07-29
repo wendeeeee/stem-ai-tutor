@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: pgvector/pgvector:0.8.0-pg16
+        env:
+          POSTGRES_USER: stem_tutor
+          POSTGRES_PASSWORD: stem_tutor
+          POSTGRES_DB: stem_tutor
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U stem_tutor -d stem_tutor"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      redis:
+        image: redis:7.4-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://stem_tutor:stem_tutor@localhost:5432/stem_tutor
+      DATABASE_SSL: "false"
+      REDIS_HOST: localhost
+      REDIS_PORT: "6379"
+      ADMIN_INGESTION_KEY: deterministic-ci-ingestion-key
+      OPENAI_API_KEY: ""
+      NAIJALINGO_API_KEY: ""
+      ELEVEN_LABS_API_KEY: ""
+      ELEVEN_LABS_VOICE_ID: ""
+      ELEVEN_LABS_VOICE_NAME: ""
+      YARN_GPT_API_KEY: ""
+      TTS_PROVIDER: naijalingo
+      TUTOR_RETRIEVAL_THRESHOLD: "0.65"
+      RUN_CORPUS_INTEGRATION: "true"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint API and web
+        run: npm run lint
+
+      - name: Unit and browser tests
+        run: npm test
+
+      - name: Apply and verify explicit migrations
+        run: |
+          npm run migration:run
+          npm run migration:show
+
+      - name: PostgreSQL and Redis integration tests
+        run: npm run test:integration
+
+      - name: Production builds
+        run: npm run build
+
+      - name: Deterministic evaluation harness
+        run: npm run demo -- --mode mock

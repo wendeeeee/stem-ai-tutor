@@ -1,0 +1,40 @@
+{
+  "name": "stem-ai-tutor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A curriculum-grounded, multi-agent voice STEM tutor proof of concept.",
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "engines": {
+    "node": ">=20 <23"
+  },
+  "scripts": {
+    "build": "npm run build --workspace api && npm run build --workspace web",
+    "build:api": "npm run build --workspace api",
+    "build:web": "npm run build --workspace web",
+    "start": "npm run start --workspace api",
+    "start:dev": "npm run dev",
+    "dev": "concurrently -k -n api,web -c blue,green \"npm run start:dev --workspace api\" \"npm run start:dev --workspace web\"",
+    "lint": "npm run lint --workspace api && npm run lint --workspace web",
+    "test": "npm run test --workspace api && npm run test --workspace web",
+    "test:api": "npm run test --workspace api",
+    "test:web": "npm run test --workspace web",
+    "test:e2e": "npm run test:e2e --workspace api",
+    "test:integration": "npm run test:integration --workspace api",
+    "db:up": "docker compose up -d database redis",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs database redis",
+    "migration:run": "npm run migration:run --workspace api",
+    "migration:revert": "npm run migration:revert --workspace api",
+    "migration:show": "npm run migration:show --workspace api",
+    "ingest": "npm run ingest --workspace api --",
+    "demo": "node demo/scripts/run-demo.mjs",
+    "evidence:capture": "PLAYWRIGHT_BROWSERS_PATH=0 node evidence/scripts/capture-evidence.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "playwright": "^1.55.0"
+  }
+}
