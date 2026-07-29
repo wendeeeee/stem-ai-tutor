@@ -1,6 +1,5 @@
 import { ConfigService } from '@nestjs/config';
 import { CurriculumChunk } from '../contracts/tutor-run-state';
-import { HarnessError } from '../policies/harness-error';
 import {
   ModelResponseClient,
   ModelResponseRequest,
