@@ -1,0 +1,243 @@
+@startuml component-diagram
+' Derived from:
+'   api/src/tutor/tutor.module.ts                          (component wiring + injection tokens)
+'   api/src/tutor/tutor.controller.ts                      (TutorController routes/deps)
+'   api/src/voice/voice.controller.ts                      (VoiceController deps)
+'   api/src/corpus/corpus.controller.ts                    (CorpusController deps)
+'   api/src/health/health.controller.ts                    (HealthController)
+'   api/src/tutor/services/tutor-orchestrator.service.ts   (orchestrator collaborators)
+'   api/src/tutor/contracts/agent.contract.ts              (TutorAgent, AgentResult, AgentContext)
+'   api/src/tutor/contracts/tool.contract.ts               (TutorTool, ToolInvoker, ToolResult)
+'   api/src/tutor/tools/tool-registry.service.ts           (ToolRegistryService, ToolRegistryScope)
+'   api/src/tutor/tools/curriculum-search.tool.ts          (CurriculumSearchTool)
+'   api/src/tutor/policies/harness-policy.service.ts       (HarnessPolicyService, HarnessPolicy, RunBudget)
+'   api/src/tutor/policies/harness-error.ts                (HarnessError)
+'   api/src/tutor/persistence/tutor-run-store.ts           (TutorRunStore)
+'   api/src/tutor/persistence/typeorm-tutor-run.store.ts   (TypeOrmTutorRunStore)
+'   api/src/tutor/agents/*.ts                              (agent class names)
+'   api/src/tutor/reinforcement/*.ts                       (ReinforcementService, ReinforcementPolicyService)
+'   api/src/corpus/services/*.ts, api/src/corpus/processors/corpus-ingestion.processor.ts (ingestion pipeline)
+'   api/src/voice/services/*.ts                            (TranscriptionService, SpeechService, caches, limits)
+
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName Sans
+skinparam ArrowFontSize 10
+left to right direction
+
+package "HTTP layer (controllers)" {
+  [TutorController] as TutorCtl
+  [VoiceController] as VoiceCtl
+  [CorpusController] as CorpusCtl
+  [HealthController] as HealthCtl
+  [HealthService] as HealthSvc
+  [AdminIngestionKeyGuard] as AdminGuard
+}
+
+package "Tutor harness" {
+  [TutorOrchestratorService] as Orchestrator
+  [TutorRunQueryService] as RunQuery
+  [HarnessPolicyService] as Policy
+  [RunBudget] as Budget
+  [ToolRegistryService] as ToolRegistry
+  [CurriculumSearchTool] as SearchTool
+
+  interface "TutorAgent<TIn,TOut>" as ITutorAgent
+  interface "TutorTool<TIn,TOut>" as ITutorTool
+  interface "ToolInvoker" as IToolInvoker
+
+  [ModelQueryTransformerAgent] as QtAgent
+  [DeterministicRetrievalAgent] as RetrAgent
+  [ModelTutorAgent] as TutorAgentImpl
+  [ModelGroundingVerifierAgent] as VerifierAgent
+}
+
+package "Reinforcement" {
+  [ReinforcementService] as Reinforcement
+  [ReinforcementPolicyService] as ReinPolicy
+}
+
+package "Provider seam (interfaces)" {
+  interface "QueryTransformerProvider" as IQt
+  interface "TutorProvider" as ITutorProv
+  interface "GroundingVerifierProvider" as IVerifier
+  interface "TranslationProvider" as ITranslation
+  interface "EmbeddingProvider" as IEmbedding
+  interface "TranscriptionProvider" as ITranscription
+  interface "SpeechProvider" as ISpeech
+}
+
+package "Provider adapters" {
+  [OpenAiModelResponseClient] as ResponseClient
+  [OpenAiQueryTransformerProvider] as QtProv
+  [OpenAiTutorProvider] as TutorProv
+  [OpenAiGroundingVerifierProvider] as VerifierProv
+  [GeminiTranslationProvider] as TranslationProv
+  [OpenAiEmbeddingProvider] as EmbeddingProv
+  [OpenAiTranscriptionProvider] as TranscriptionProv
+  [NaijaLingoSpeechProvider] as NaijaTts
+  [ElevenLabsSpeechProvider] as ElevenTts
+  [YarnGptSpeechProvider] as YarnTts
+  [OpenAiSpeechProvider] as OpenAiTts
+}
+
+package "Retrieval + ingestion (CorpusModule)" {
+  [CorpusSearchService] as CorpusSearch
+  [CorpusQueryService] as CorpusQuery
+  [DocumentUploadService] as Upload
+  [UploadStorageService] as Storage
+  [CorpusIngestionProcessor] as IngestProc
+  [CorpusIngestionService] as Ingest
+  [PdfExtractorService] as Pdf
+  [TextChunkerService] as Chunker
+}
+
+package "Voice services" {
+  [TranscriptionService] as Transcribe
+  [SpeechService] as Speech
+  [SpeechChunkCacheService] as ChunkCache
+  [VoiceSessionService] as VoiceSessions
+  [VoiceRateLimitService] as RateLimit
+  [VoicePolicyService] as VoicePolicy
+}
+
+package "Persistence" {
+  interface "TutorRunStore" as IRunStore
+  [TypeOrmTutorRunStore] as RunStore
+  database "PostgreSQL 16 + pgvector" as PG
+  queue "Redis / BullMQ\ncorpus-ingestion" as Redis
+}
+
+' --- controller wiring ---
+CorpusCtl ..> AdminGuard : guarded by
+HealthCtl --> HealthSvc
+HealthSvc --> PG : probe vector + pg_trgm versions
+HealthSvc --> Redis : probe BullMQ connection
+TutorCtl --> Orchestrator
+TutorCtl --> RunQuery
+TutorCtl --> Reinforcement
+TutorCtl --> VoiceSessions
+TutorCtl --> VoicePolicy
+VoiceCtl --> Transcribe
+VoiceCtl --> Speech
+VoiceCtl --> RateLimit
+VoiceCtl --> VoicePolicy
+CorpusCtl --> Upload
+CorpusCtl --> CorpusQuery
+CorpusCtl --> CorpusSearch
+
+' --- orchestrator collaborators ---
+Orchestrator --> IRunStore : TUTOR_RUN_STORE
+Orchestrator --> Policy
+Orchestrator --> ToolRegistry
+Orchestrator ..> Budget : creates per run
+Orchestrator --> ITutorAgent : QUERY_TRANSFORMER_AGENT,\nRETRIEVAL_AGENT,\nTUTOR_AGENT,\nGROUNDING_VERIFIER_AGENT
+Orchestrator --> ITranslation : TRANSLATION_PROVIDER
+Budget ..> Policy : reads HarnessPolicy
+
+' --- agents realise the agent contract ---
+ITutorAgent <|.. QtAgent
+ITutorAgent <|.. RetrAgent
+ITutorAgent <|.. TutorAgentImpl
+ITutorAgent <|.. VerifierAgent
+
+QtAgent --> IQt
+TutorAgentImpl --> ITutorProv
+VerifierAgent --> IVerifier
+RetrAgent --> IToolInvoker : invokes 'curriculum.search'
+RetrAgent --> Policy : retrievalLimit / retrievalThreshold
+
+' --- tool layer ---
+ToolRegistry ..> IToolInvoker : forScope(ToolRegistryScope)
+ToolRegistry --> ITutorTool
+ToolRegistry --> Policy
+ToolRegistry --> IRunStore : startTool / finishTool
+ITutorTool <|.. SearchTool
+SearchTool --> CorpusSearch
+
+' --- provider seam realisations ---
+IQt <|.. QtProv
+ITutorProv <|.. TutorProv
+IVerifier <|.. VerifierProv
+ITranslation <|.. TranslationProv
+IEmbedding <|.. EmbeddingProv
+ITranscription <|.. TranscriptionProv
+ISpeech <|.. NaijaTts
+ISpeech <|.. ElevenTts
+ISpeech <|.. YarnTts
+ISpeech <|.. OpenAiTts
+QtProv --> ResponseClient
+TutorProv --> ResponseClient
+VerifierProv --> ResponseClient
+
+' --- retrieval + ingestion ---
+CorpusSearch --> IEmbedding
+CorpusSearch --> PG : hybrid SQL\n(vector + tsvector + trgm)
+CorpusQuery --> PG
+Upload --> Storage
+Upload --> Redis : enqueue
+Redis --> IngestProc
+IngestProc --> Ingest
+Ingest --> Pdf
+Ingest --> Chunker
+Ingest --> IEmbedding
+Ingest --> Storage
+Ingest --> PG
+
+' --- voice ---
+Transcribe --> ITranscription
+Transcribe --> VoicePolicy
+Transcribe --> VoiceSessions
+Speech --> ISpeech
+Speech --> ChunkCache
+Speech --> VoicePolicy
+Speech --> VoiceSessions
+Speech --> PG : reads TutorRun
+VoiceSessions --> PG
+
+' --- reinforcement ---
+Reinforcement --> ReinPolicy
+Reinforcement --> PG
+
+' --- persistence ---
+IRunStore <|.. RunStore
+RunStore --> PG
+RunQuery --> PG
+
+note right of Budget
+  RunBudget enforces maxAgentCalls,
+  maxTokens, maxEstimatedCostUsd and
+  maxRevisions (fixed at 1); breaches
+  raise HarnessError.
+end note
+
+note bottom of ITutorTool
+  TutorTool validates its own input and
+  result (validateInput / validateResult);
+  ToolRegistryService adds retry, timeout,
+  budget accounting and trace persistence.
+end note
+
+' ============================ FIGURE CAPTION ============================
+' UML component view of the NestJS API's internal structure. Four thin controllers form the
+' HTTP layer; CorpusController is the only one behind an authorisation guard
+' (AdminIngestionKeyGuard), because ingestion is an operator function rather than a student
+' one. TutorOrchestratorService is the single point that sequences a grounded run: it depends
+' on the TutorRunStore interface for persistence, on HarnessPolicyService for its limits, on
+' ToolRegistryService for tool access, and on four TutorAgent<TIn,TOut> implementations bound
+' by injection token — ModelQueryTransformerAgent, DeterministicRetrievalAgent, ModelTutorAgent
+' and ModelGroundingVerifierAgent. The agent and tool contracts are deliberately narrow and
+' symmetric: an agent returns AgentResult<TOut> (output, token/cost usage, summary) and a tool
+' returns ToolResult<TOut> while validating its own input and result, which lets the registry
+' impose retries, timeouts, budget accounting and trace persistence uniformly on code it does
+' not trust. Two structural points are worth noting because they differ from the obvious
+' reading: retrieval is deterministic — DeterministicRetrievalAgent performs no model call and
+' simply invokes the 'curriculum.search' tool with policy-supplied limit and threshold, so the
+' only LLMs in a run are the transformer, tutor, verifier and translator; and RunBudget is not
+' an injectable service but a per-run object constructed by the orchestrator, which is what
+' makes its ceilings (agent calls, tokens, estimated cost, and a hard maxRevisions of 1)
+' per-run rather than global. The ingestion pipeline (upload, storage, PDF extraction,
+' chunking, embedding) runs off the request path via a BullMQ queue consumed by
+' CorpusIngestionProcessor, and shares the EmbeddingProvider seam with query-time search.
+
+@enduml

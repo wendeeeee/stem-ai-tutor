@@ -1,0 +1,195 @@
+@startuml pipeline-sequence
+' Derived from:
+'   web/src/api.ts                                        (transcribeAudio, streamTutorRun, synthesizeSpeech)
+'   web/src/App.tsx                                       (explicit transcript confirmation before the run)
+'   api/src/voice/voice.controller.ts                     (POST /api/voice/transcriptions, POST /api/tutor/runs/:runId/speech)
+'   api/src/voice/services/transcription.service.ts       (validation, timeout, VoiceSessionService.create)
+'   api/src/voice/services/speech.service.ts              (completed+grounded precondition, chunking, metrics)
+'   api/src/tutor/tutor.controller.ts                     (POST /api/tutor/runs/stream, SSE observer, assertAvailable)
+'   api/src/tutor/services/tutor-orchestrator.service.ts  (stage order + every decision point below)
+'   api/src/tutor/tools/tool-registry.service.ts          (startTool/finishTool, tool trace events)
+'   api/src/tutor/tools/curriculum-search.tool.ts         (curriculum.search)
+'   api/src/corpus/services/corpus-search.service.ts      (embedding + hybrid SQL)
+'   api/src/tutor/policies/harness-policy.service.ts      (RunBudget, retrievalThreshold, maxRevisions = 1)
+'   api/src/tutor/citations/citation-markers.ts           (stripCitationMarkers)
+
+skinparam shadowing false
+skinparam defaultFontName Sans
+skinparam ParticipantPadding 6
+skinparam BoxPadding 8
+autonumber
+
+actor Student
+participant "Browser client\n(web/src/api.ts)" as Web
+participant "VoiceController" as VoiceCtl
+participant "TranscriptionService" as ASR
+participant "TutorController" as TutorCtl
+participant "TutorOrchestratorService" as Orch
+participant "TypeOrmTutorRunStore\n(TUTOR_RUN_STORE)" as Store
+participant "RunBudget" as Budget
+participant "ModelQueryTransformerAgent" as QtAgent
+participant "DeterministicRetrievalAgent" as RetrAgent
+participant "ToolRegistryService\n+ CurriculumSearchTool" as Tools
+participant "CorpusSearchService" as Corpus
+participant "ModelTutorAgent" as TutorAgent
+participant "ModelGroundingVerifierAgent" as Verifier
+participant "GeminiTranslationProvider\n(TRANSLATION_PROVIDER)" as Translate
+participant "SpeechService" as TTS
+database "PostgreSQL 16\n+ pgvector" as PG
+
+== 1. Speech capture and transcription ==
+Student -> Web : push-to-talk recording
+Web -> VoiceCtl : POST /api/voice/transcriptions\n(multipart audio, language, durationMs)
+VoiceCtl -> VoiceCtl : VoiceRateLimitService.assert("asr:<ip>")
+VoiceCtl -> ASR : transcribe(file, language, durationMs)
+ASR -> ASR : validate mime/extension/duration,\nrace provider against asrTimeoutMs
+ASR -> PG : VoiceSessionService.create(language, AsrMetrics)
+ASR --> VoiceCtl : { transcript, model, latencyMs,\n  estimatedCostUsd, voiceSessionId }
+VoiceCtl --> Web : 200 TranscriptionResponse
+
+== 2. Explicit transcript confirmation ==
+Web -> Student : show editable transcript
+Student -> Web : confirm (or edit / retype)
+
+== 3. Grounded tutor run ==
+Web -> TutorCtl : POST /api/tutor/runs/stream\n{ question, language, preferredLanguage, voiceSessionId }
+TutorCtl -> TutorCtl : VoiceSessionService.assertAvailable(voiceSessionId)
+TutorCtl -> TutorCtl : open text/event-stream, heartbeat,\nAbortController on client close
+TutorCtl -> Orch : run(input, { observer, signal })
+Orch -> Budget : new RunBudget(policy, wallStart)
+Orch -> Store : createRun({ question, language,\n  outputLanguage = preferredLanguage ?? 'pcm' })
+Store -> PG : INSERT tutor_runs
+Orch -> Store : appendTrace(run.created) / updateRun(status='running')\n/ appendTrace(run.started)
+Store --> TutorCtl : each persisted TraceEvent
+TutorCtl --> Web : SSE event: run.created, run.started
+
+group Stage "query-transformation"
+  Orch -> QtAgent : executeAgent(..., stage='query-transformation')
+  QtAgent -> QtAgent : QueryTransformerProvider.transform()
+  QtAgent --> Orch : { refinedQuery, intent, concepts,\n  corrections, model }
+  Orch -> Budget : addUsage(tokens, cost)
+  Orch -> Store : updateRun(queryTransformation, metrics)\n+ appendTrace(agent.completed)
+  TutorCtl --> Web : SSE agent.started / agent.completed
+end
+
+group Stage "retrieval" (hybrid)
+  Orch -> RetrAgent : executeAgent(..., stage='retrieval')
+  RetrAgent -> Tools : tools.invoke('curriculum.search',\n{ query: refinedQuery, limit, threshold })
+  Tools -> Store : startTool(...) + appendTrace(tool.started)
+  Tools -> Corpus : search(input)
+  Corpus -> Corpus : EmbeddingProvider.embed([query])
+  Corpus -> PG : hybrid SQL — vector cosine (HNSW)\n+ tsvector rank + pg_trgm similarity
+  PG --> Corpus : ranked candidate chunks
+  Corpus --> Tools : { results, acceptedCount, threshold, embedding }
+  Tools -> Store : finishTool(completed) + appendTrace(tool.completed)
+  Tools --> RetrAgent : ToolResult<CurriculumSearchOutput>
+  RetrAgent --> Orch : { chunks }
+  Orch -> Orch : keep chunk.accepted &&\nchunk.hybridScore >= retrievalThreshold
+  Orch -> Store : updateRun(retrievedChunks)\n+ appendTrace(retrieval.completed)
+end
+
+alt DECISION A — no evidence survives the threshold
+  Orch -> Store : refuse("No curriculum evidence met the retrieval threshold.")\nstatus='refused', appendTrace(run.refused)
+  Orch --> TutorCtl : TutorRunState (refused)
+else evidence found
+  group Stage "tutor"
+    Orch -> TutorAgent : executeAgent(..., stage='tutor')
+    TutorAgent -> TutorAgent : TutorProvider.generate()
+    TutorAgent --> Orch : { answer, citations, answerSummary,\n  insufficientEvidence, limitation }
+    Orch -> Orch : enforceCitations() — an unretrieved chunkId\nraises HarnessError UNKNOWN_CITATION
+    Orch -> Store : updateRun(draftAnswer, citations, metrics)
+  end
+
+  alt DECISION B — tutor declares insufficient evidence
+    Orch -> Store : refuse(limitation), status='refused'
+    Orch --> TutorCtl : TutorRunState (refused)
+  else draft produced
+    group Stage "verification" (attempt='initial', revisionAvailable=true)
+      Orch -> Verifier : executeAgent(..., stage='verification')
+      Verifier -> Verifier : GroundingVerifierProvider.verify()
+      Verifier --> Orch : { grounded, reasons, checkedCitationIds,\n  revisionRecommended, revisionGuidance, unsupportedClaims }
+      Orch -> Orch : reject unless checkedCitationIds\nexactly matches the draft citation set
+      Orch -> Store : updateRun(grounding, metrics)
+    end
+
+    opt DECISION C — not grounded AND revisionRecommended (bounded: maxRevisions = 1)
+      Orch -> Budget : addRevision() — a second attempt raises\nREVISION_LIMIT_EXCEEDED
+      Orch -> Store : appendTrace(revision.started)
+      Orch -> TutorAgent : executeAgent(..., stage='revision',\ninput.revision = { previousAnswer, verifierReasons,\nverifierGuidance, unsupportedClaims })
+      TutorAgent --> Orch : revised draft
+      Orch -> Orch : enforceCitations()
+      Orch -> Store : updateRun(draftAnswer, citations, metrics)
+      note right of Orch
+        DECISION B applies again here: if the revised
+        draft reports insufficientEvidence the run
+        refuses without re-verifying.
+      end note
+      Orch -> Verifier : executeAgent(..., stage='verification',\nattempt='revision', revisionAvailable=false)
+      Verifier --> Orch : second grounding verdict
+      Orch -> Store : updateRun(grounding, metrics)
+    end
+
+    alt DECISION D — still not grounded
+      Orch -> Store : refuse("could not be grounded ...\nafter one controlled revision" when revisions > 0)
+      Orch --> TutorCtl : TutorRunState (refused)
+    else grounded
+      group Stage "translation"
+        Orch -> Store : appendTrace(translation.started)
+        Orch -> Orch : stripCitationMarkers(answer, citedChunkIds)
+        Orch -> Translate : translate({ text, targetLanguage: outputLanguage })
+        Translate --> Orch : { translatedText, provider, model,\n  inputTokens, outputTokens, estimatedCostUsd }
+        Orch -> Budget : addUsage(...)
+        Orch -> Store : updateRun(translatedAnswer, translationMetadata)\n+ appendTrace(translation.completed)
+      end
+      Orch -> Budget : complete() — freeze latencyMs
+      Orch -> Store : updateRun(status='completed', finalAnswer,\nrefused=false, metrics, completedAt)
+      Orch -> Store : appendTrace(run.completed)
+      TutorCtl --> Web : SSE run.completed, then stream ends
+    end
+  end
+end
+
+note over Orch, Store
+  Every stage is wrapped by executeAgent(): abort check, RunBudget.beforeAgent(),
+  agentTimeoutMs race, structured-output validation, up to maxAgentRetries retries,
+  and an agent.started / agent.completed / agent.failed trace row per attempt.
+  Any escaping HarnessError sets status='failed', refused=true and traces run.failed.
+end note
+
+== 4. Speech synthesis of the grounded answer ==
+Web -> VoiceCtl : POST /api/tutor/runs/:runId/speech
+VoiceCtl -> VoiceCtl : VoiceRateLimitService.assert("tts:<ip>")
+VoiceCtl -> TTS : synthesize(runId)
+TTS -> PG : load TutorRun
+TTS -> TTS : require status='completed', !refused,\nfinalAnswer, translatedAnswer, grounding.grounded
+TTS -> TTS : toSpeechText(translatedAnswer, citedChunkIds),\nchunk (NaijaLingo only), per-chunk cache + retry
+TTS -> PG : VoiceSessionService — persist TtsMetrics
+TTS --> VoiceCtl : audio buffer + provider/pricing metadata
+VoiceCtl --> Web : 200 audio + X-TTS-* / X-Voice-Session-Id headers
+Web -> Student : play grounded answer, show citations,\nevidence and per-stage metrics
+
+' ============================ FIGURE CAPTION ============================
+' UML sequence of one complete grounded run, from spoken question to spoken answer. The
+' interaction is deliberately split across three HTTP calls rather than one: transcription
+' (POST /api/voice/transcriptions) returns a transcript and a voiceSessionId, the student then
+' explicitly confirms or edits that transcript in the browser, and only then does the run start
+' (POST /api/tutor/runs/stream), which streams persisted trace events back over SSE while it
+' executes. The orchestrator drives five stages in fixed order — query-transformation,
+' retrieval, tutor, verification, translation — persisting a tutor_runs patch and an
+' agent_events row at every step, so the trace the student sees and the trace stored for
+' analysis are the same records. Four decision points can end the run early, marked A to D:
+' (A) no retrieved chunk is both accepted and at or above retrievalThreshold; (B) the tutor
+' agent itself reports insufficientEvidence, which is checked after the initial draft and again
+' after a revision; (C) the verifier returns not-grounded but recommends revision, which
+' triggers exactly one bounded re-draft (RunBudget.maxRevisions is fixed at 1 in code, not
+' configurable) followed by a second verification with revisionAvailable=false; and (D) the
+' answer is still not grounded, which refuses with a message that distinguishes the
+' post-revision case. Only the grounded path reaches translation and completion. Two details
+' commonly mis-stated in prose: citation markers are stripped from the answer before it is sent
+' to the translator, and the translation stage is not an agent — it calls the
+' TranslationProvider directly, so it has its own translation.started/completed trace events
+' and its own error mapping rather than going through executeAgent's retry loop. Speech
+' synthesis is a separate, later request that refuses unless the run is completed, unrefused
+' and grounded, and it speaks the translated answer, not the English draft.
+
+@enduml

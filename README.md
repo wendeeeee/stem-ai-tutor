@@ -2,8 +2,6 @@
 
 A curriculum-grounded, multi-agent voice STEM tutor proof of concept.
 
-The implementation is documented as a living tutorial in
-[`docs/building-the-stem-ai-tutor.md`](docs/building-the-stem-ai-tutor.md).
 
 ## Completed proof-of-concept layers
 
@@ -21,7 +19,7 @@ The current milestone provides:
 - Deterministic retrieval plus separate model-backed tutor and grounding-verifier agents.
 - Persisted tutor runs, ordered traces, tool invocations, budgets, and safe errors.
 - Synchronous text-only tutor-run creation and retrieval endpoints.
-- A responsive React/Vite browser workspace with push-to-talk and typed fallback.
+- A responsive React/Vite browser workspace with push-to-talk and typed fallback for this prototype.
 - Server-side OpenAI transcription, ElevenLabs tutor voice, and explicitly
   selectable YarnGPT/OpenAI speech adapters.
 - Explicit transcript review before the existing grounded tutor can run.
@@ -34,11 +32,103 @@ The current milestone provides:
 - Captioned deterministic screenshots, a local fallback recording, and a live
   ten-fixture evaluation result.
 
-Milestones 1 through 5 are complete. Milestone 6 implementation and system-level
-evaluation are complete; the repository owner still needs to perform the
-documented human listening/manual-grounding review, real-microphone/second-device
-rehearsal, final narrated recording, corpus-provenance cleanup, and manual
-deployment. Deployment was not attempted.
+ [Link to voice output demo](https://github.com/user-attachments/assets/1ae42eaf-2810-48eb-8c15-c10058659039)
+
+## Architecture
+
+A React/Vite browser client handles capture and presentation only. All reasoning,
+grounding, and persistence run server-side in a NestJS API under the global `/api`
+prefix, composed of four feature modules. State lives in PostgreSQL 16 with pgvector
+and `pg_trgm`; Redis/BullMQ keeps PDF ingestion off the request path. Every external
+dependency is reached through a provider seam — a NestJS injection token binding a
+narrow interface to a vendor adapter — so providers are swapped by re-binding one token.
+
+```mermaid
+flowchart TB
+    subgraph client["Browser client — React + Vite (web/)"]
+        rec["recorder.ts<br/>push-to-talk capture"]
+        app["App.tsx<br/>transcript review, SSE trace view,<br/>evidence + citations, audio playback,<br/>reinforcement check"]
+        sdk["api.ts<br/>fetch + SSE reader"]
+        rec --> app --> sdk
+    end
+
+    subgraph api["NestJS API (api/src) — global prefix /api"]
+        health["HealthModule<br/>GET /api/health, /api/health/live"]
+        voice["VoiceModule<br/>POST /api/voice/transcriptions<br/>POST /api/tutor/runs/:runId/speech"]
+        tutor["TutorModule<br/>POST /api/tutor/runs, /stream<br/>GET /api/tutor/runs/:runId<br/>+ :runId/reinforcement"]
+        corpus["CorpusModule<br/>POST/GET /api/admin/corpus/*<br/>(AdminIngestionKeyGuard)"]
+
+        orch["TutorOrchestratorService<br/>staged run, budgets, trace"]
+        tutor --- orch
+    end
+
+    subgraph seam["Provider seam — injection tokens bind interfaces to adapters"]
+        direction LR
+        t1["TRANSCRIPTION_PROVIDER<br/>TranscriptionProvider"]
+        t2["SPEECH_PROVIDER<br/>SpeechProvider (chosen by policy)"]
+        t3["QUERY_TRANSFORMER_PROVIDER<br/>QueryTransformerProvider"]
+        t4["TUTOR_PROVIDER<br/>TutorProvider"]
+        t5["GROUNDING_VERIFIER_PROVIDER<br/>GroundingVerifierProvider"]
+        t6["TRANSLATION_PROVIDER<br/>TranslationProvider"]
+        t7["EMBEDDING_PROVIDER<br/>EmbeddingProvider"]
+        t8["REINFORCEMENT_QUESTION_PROVIDER<br/>REINFORCEMENT_EVALUATION_PROVIDER"]
+    end
+
+    subgraph data["Stateful infrastructure"]
+        pg[("PostgreSQL 16<br/>pgvector — vector(1536) HNSW<br/>pg_trgm + tsvector GIN")]
+        redis[("Redis + BullMQ<br/>corpus ingestion queue")]
+    end
+
+    subgraph ext["External provider surface — labelled by role"]
+        asr(["Speech-to-text<br/>(OpenAiTranscriptionProvider)"])
+        qt(["Query-refinement LLM<br/>(OpenAiQueryTransformerProvider)"])
+        tut(["Tutor-answer LLM<br/>(OpenAiTutorProvider)"])
+        ver(["Grounding-verification LLM<br/>(OpenAiGroundingVerifierProvider)"])
+        emb(["Text-embedding service<br/>(OpenAiEmbeddingProvider)"])
+        tr(["Low-resource-language translation<br/>(GeminiTranslationProvider)"])
+        tts(["Text-to-speech<br/>(NaijaLingo / ElevenLabs /<br/>YarnGPT / OpenAI adapters)"])
+        rein(["Learning-check LLM<br/>(question + answer evaluation)"])
+    end
+
+    sdk -->|"multipart audio, JSON, SSE"| voice
+    sdk --> tutor
+    sdk --> health
+
+    voice --> t1 --> asr
+    voice --> t2 --> tts
+    orch --> t3 --> qt
+    orch --> t4 --> tut
+    orch --> t5 --> ver
+    orch --> t6 --> tr
+    orch -->|"curriculum.search tool"| corpus
+    corpus --> t7 --> emb
+    tutor --> t8 --> rein
+
+    corpus -->|"enqueue ingestion job"| redis
+    redis -->|"CorpusIngestionProcessor"| corpus
+    corpus --> pg
+    tutor --> pg
+    voice --> pg
+    health --> pg
+```
+
+### Further diagrams
+
+All diagrams are derived from the source and cite their derived-from paths in comments.
+
+| Diagram | File | What it shows |
+| --- | --- | --- |
+| System architecture | [`docs/diagrams/architecture.md`](docs/diagrams/architecture.md) | The figure above, with its full thesis caption. |
+| Component structure | [`docs/diagrams/component-diagram.puml`](docs/diagrams/component-diagram.puml) | UML components: controllers, orchestrator, `TutorAgent`/`TutorTool` contracts, tool registry, harness policy, retrieval, ingestion, persistence. |
+| Grounded run sequence | [`docs/diagrams/pipeline-sequence.puml`](docs/diagrams/pipeline-sequence.puml) | UML sequence of one end-to-end run: ASR → transcript confirmation → query transformer → hybrid retrieval → tutor → verifier → bounded revision → translation → TTS. |
+| Run state machine | [`docs/diagrams/run-state-machine.md`](docs/diagrams/run-state-machine.md) | Run lifecycle states, the three decision points, the four refusal paths, and the completed/failed terminals. |
+| Database schema | [`docs/diagrams/er-diagram.md`](docs/diagrams/er-diagram.md) | All eleven tables from the migrations, with the `vector(1536)` column, constraints, and foreign keys. |
+
+The two `.puml` files render with any PlantUML tool, for example:
+
+```bash
+plantuml docs/diagrams/component-diagram.puml docs/diagrams/pipeline-sequence.puml
+```
 
 ## Prerequisites
 
@@ -79,7 +169,7 @@ NAIJALINGO_VOICE_YO=adeola_yo
 NAIJALINGO_VOICE_HA=aisha_ha
 TTS_CHUNK_PREFERRED_CHARACTERS=550
 TTS_CHUNK_MAX_CHARACTERS=700
-TTS_APPLICATION_TIMEOUT_MS=65000
+TTS_APPLICATION_TIMEOUT_MS=300000
 ```
 
 OpenAI remains the ASR provider. `elevenlabs`, `yarngpt`, and `openai` remain
@@ -279,55 +369,12 @@ only the cleaned canonical tutor-answer text—not microphone audio, student
 questions, transcripts, chunks, prompts, reasoning, citations as metadata,
 reinforcement data, account data, or identifying information.
 
-ElevenLabs [documents default provider-side retention and Enterprise-only Zero
-Retention Mode](https://elevenlabs.io/docs/eleven-api/resources/zero-retention-mode).
-The default
-`ELEVEN_LABS_ENABLE_LOGGING=true` therefore makes no zero-retention claim.
-Review the current ElevenLabs privacy policy, terms, and organizational
-requirements before manual deployment.
 
-The configured `$0.05` per 1,000 characters is a dated
-[public Flash/Turbo API list-rate](https://elevenlabs.io/pricing/api) estimate,
-not necessarily the account's marginal charge or invoice.
-The `character-cost` response header is stored separately as provider usage
-credits and is never treated as currency.
-
-## Evaluation and evidence
-
-Run the no-credit harness:
-
-```bash
-npm run demo
-npm run demo -- --mode mock
-```
-
-Run live only after starting the configured local API:
-
-```bash
-DEMO_LIVE_CONFIRM=YES \
-DEMO_API_ORIGIN=http://localhost:3000 \
-TTS_PROVIDER=naijalingo \
-npm run demo -- --mode live
-```
-
-Run this only after the local 9jaLingo and tutor-provider credentials are
-configured.
-
-See [`demo/README.md`](demo/README.md) for fixture design, denominators, exports,
-and the locked historical result. The 24 July Milestone 6 pass used YarnGPT,
-retrieved the expected source for 10/10 fixtures, and made six successful
-YarnGPT calls. It is preserved as historical evidence and is not relabelled as
-ElevenLabs.
-
-Captioned artifacts and reproduction instructions are in
-[`evidence/README.md`](evidence/README.md). The screenshots are complete, but
-the fallback video uses a virtual microphone and deterministic routes. The owner
-must still capture a real-microphone, audible final recording.
 
 ## Corpus licence and reproducibility pins
 
 The local fixture manifest identifies two ingested `Basic Science Text`
-documents and their ingestion IDs. Local metadata records `CC BY-ND`; it does
+documents and their ingestion IDs. Local metadata records `CC BY 4.0`; it does
 not record a source URL, named author, or publisher. That attribution gap must
 be resolved before public seminar publication. Do not substitute the example
 `CC BY 4.0` upload command above for the actual source licence.
@@ -342,16 +389,11 @@ with `9jalingo-tts-1` plus the configured Nigerian Pidgin voice.
 
 This is an English-only system-level proof of concept. No students were tested;
 there is no learning-effectiveness, student-preference, or production-readiness
-claim. It excludes Yoruba/Hausa tutoring, translation, accounts, long-term
+claim. It excludes accounts, long-term
 progress, teacher dashboards, distributed quotas, spoken reinforcement, and
 production deployment.
 
-Known limitations include the historical live disposition accuracy, no live
-9jaLingo synthesis result recorded by the current evaluation-harness revision,
-unverified real microphone and second device in this environment, and
-incomplete corpus source attribution. Canonical tutor answers are capped at
-8,000 characters independent of the voice provider. Incompatible
-legacy/provider limits fail safely without truncation.
+
 
 ## Quality checks
 
@@ -371,10 +413,7 @@ production builds, and the mock demo harness without provider keys or paid calls
 
 ## Manual deployment handoff
 
-Deployment is deliberately outside Milestone 6 implementation. The repository
-owner must choose hosting, provision PostgreSQL/pgvector and Redis, apply all
+Deployment is deliberately outside scope of this prototype. The project reproducer must choose hosting, provision PostgreSQL/pgvector and Redis, apply all
 explicit migrations with `synchronize: false`, configure server-side secrets and
-origins/rate limits, ingest/verify the licensed corpus, run readiness plus the
-live fixture set, perform the outstanding human/device checks, and deploy
-manually. No hosting, cloud resources, domain, DNS, or production secret was
+origins/rate limits, ingest/verify the licensed corpus, , perform the outstanding human/device checks, and deploy manually. No hosting, cloud resources, domain, DNS, or production secret was
 created by this work.
