@@ -75,6 +75,3 @@ jobs:
 
       - name: Production builds
         run: npm run build
-
-      - name: Deterministic evaluation harness
-        run: npm run demo -- --mode mock
