@@ -1,0 +1,250 @@
+{
+  "fixtureVersion": "1.0.0",
+  "lockedAt": "2026-07-24T00:00:00.000Z",
+  "language": "en",
+  "corpus": {
+    "description": "Locally ingested, page-aware Basic Science Text corpus used for Milestones 2-6.",
+    "documents": [
+      {
+        "id": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+        "title": "Basic Science Text",
+        "subject": "Physical Science",
+        "schoolLevel": "SS1",
+        "curriculum": "NERDC",
+        "licence": "CC BY-ND",
+        "ingestionId": "b2713131-4aa0-47b2-abd6-0a390d074546"
+      },
+      {
+        "id": "2ca49518-71e1-412d-aebe-3c4b46191628",
+        "title": "Basic Science Text",
+        "subject": "Natural Science",
+        "schoolLevel": "SS1",
+        "curriculum": "NERDC",
+        "licence": "CC BY-ND",
+        "ingestionId": "1f016181-78d2-4f52-b32f-2efe16e5625f"
+      }
+    ],
+    "attributionLimitation": "The local corpus metadata records the licence and title but does not record a source URL, named author, or publisher. Publication should resolve this provenance gap."
+  },
+  "fixtures": [
+    {
+      "id": "supported-sound-speed-01",
+      "category": "supported",
+      "question": "What factors affect the speed of sound in a material?",
+      "language": "en",
+      "expectedDisposition": "completed",
+      "expectedCurriculumTopic": "Sound",
+      "expectedPersistedTopicLabel": "Everything Science",
+      "expectedSource": {
+        "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+        "title": "Basic Science Text"
+      },
+      "expectedEvidence": {
+        "locators": ["page 184"],
+        "chunkIds": ["912cc184ede2db40f3356c949e51c74fc89cb341035218d919b2aa6b3f3b6cfe"]
+      },
+      "requiredConcepts": ["medium", "solids", "liquids", "gases"],
+      "forbiddenUnsupportedClaims": ["A universal speed independent of medium"],
+      "asrInvolved": false,
+      "groundTruthJustification": "Page 184 states that sound speed depends on its medium and compares solids, liquids, and gases."
+    },
+    {
+      "id": "supported-resistance-02",
+      "category": "supported",
+      "question": "What causes resistance in an electric circuit?",
+      "language": "en",
+      "expectedDisposition": "completed",
+      "expectedCurriculumTopic": "Electric Circuits",
+      "expectedPersistedTopicLabel": "Everything Science",
+      "expectedSource": {
+        "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+        "title": "Basic Science Text"
+      },
+      "expectedEvidence": {
+        "locators": ["page 304", "page 305"],
+        "chunkIds": [
+          "760963c581fec5fa684ac18cf0db73c8b5b03ea2b8aff8f69fbcb062ff2274d3",
+          "13131c5c33699fda922b6d054eba83d48cc6d8f8a2527862b1530c756c1bd7fe"
+        ]
+      },
+      "requiredConcepts": ["electron collisions", "energy transfer", "slower charge flow"],
+      "forbiddenUnsupportedClaims": ["Resistance creates electrical charge"],
+      "asrInvolved": false,
+      "groundTruthJustification": "Pages 304-305 explain microscopic collisions, energy transfer, heating, and physical factors affecting resistance."
+    },
+    {
+      "id": "supported-physical-change-03",
+      "category": "supported",
+      "question": "What happens during a physical change in matter?",
+      "language": "en",
+      "expectedDisposition": "completed",
+      "expectedCurriculumTopic": "Physical and Chemical Change",
+      "expectedPersistedTopicLabel": "Everything Science",
+      "expectedSource": {
+        "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+        "title": "Basic Science Text"
+      },
+      "expectedEvidence": {
+        "locators": ["page 229", "page 230"],
+        "chunkIds": [
+          "7f0a00f938a54b8c60f2ac99ce50d5d754fba050c1b20898bad2f9f35264a65c",
+          "b583a2bf865466666a14f3a24407512d1562a136510dcdfa235103a53fe486f3"
+        ]
+      },
+      "requiredConcepts": ["particles remain intact", "arrangement may change", "no bonds broken"],
+      "forbiddenUnsupportedClaims": ["A new substance is always formed"],
+      "asrInvolved": false,
+      "groundTruthJustification": "Pages 229-230 define physical change and explain that molecules remain intact while arrangement can change."
+    },
+    {
+      "id": "supported-si-units-04",
+      "category": "supported",
+      "question": "What are SI units?",
+      "language": "en",
+      "expectedDisposition": "completed",
+      "expectedCurriculumTopic": "Skills for Science",
+      "expectedPersistedTopicLabel": "Everything Science",
+      "expectedSource": {
+        "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+        "title": "Basic Science Text"
+      },
+      "expectedEvidence": {
+        "locators": ["page 21"],
+        "chunkIds": ["79f4443048ef836f18f981b8302851890230e998992a756ed06d95a857595c86"]
+      },
+      "requiredConcepts": ["internationally agreed units", "International System of Units", "seven base units"],
+      "forbiddenUnsupportedClaims": ["SI has only one base unit"],
+      "asrInvolved": false,
+      "groundTruthJustification": "Page 21 explicitly defines SI and states that there are seven base units."
+    },
+    {
+      "id": "supported-cell-units-05",
+      "category": "supported",
+      "question": "Why are cells called the basic units of life?",
+      "language": "en",
+      "expectedDisposition": "completed",
+      "expectedCurriculumTopic": "Cells as the Basic Units of Life",
+      "expectedPersistedTopicLabel": "Everything Science",
+      "expectedSource": {
+        "documentId": "2ca49518-71e1-412d-aebe-3c4b46191628",
+        "title": "Basic Science Text"
+      },
+      "expectedEvidence": {
+        "locators": ["page 11", "page 34"],
+        "chunkIds": [
+          "1522783e22af5bb79a3dcc155bf6f8d2d41556da9b40dae8762e1c563def79b8",
+          "1542468047b152685863155c75a230121d2da16b648f98b01f017173fff3473c"
+        ]
+      },
+      "requiredConcepts": ["living organisms are made of cells", "structural unit", "functional unit"],
+      "forbiddenUnsupportedClaims": ["All cells are visible without a microscope"],
+      "asrInvolved": false,
+      "groundTruthJustification": "Pages 11 and 34 describe cells as the smallest/basic structural and functional units of living organisms."
+    },
+    {
+      "id": "supported-potential-energy-06",
+      "category": "supported",
+      "question": "What is gravitational potential energy and what equation is used for it?",
+      "language": "en",
+      "expectedDisposition": "completed",
+      "expectedCurriculumTopic": "Mechanical Energy",
+      "expectedPersistedTopicLabel": "Everything Science",
+      "expectedSource": {
+        "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+        "title": "Basic Science Text"
+      },
+      "expectedEvidence": {
+        "locators": ["page 459", "page 460"],
+        "chunkIds": [
+          "cb9fb6c70a726e6312f9961cfb20a22f8778a23607304cb83320f410e16ab906",
+          "48a30350ff9fb14eeb1b743fce103c877defb4d71ef209e2c06da1e80d0c6a2d"
+        ]
+      },
+      "requiredConcepts": ["energy due to position", "EP = mgh", "joules", "mass", "height"],
+      "forbiddenUnsupportedClaims": ["Potential energy is independent of height"],
+      "asrInvolved": false,
+      "groundTruthJustification": "Pages 459-460 define potential energy and give EP = mgh with quantities and units."
+    },
+    {
+      "id": "out-of-syllabus-president-07",
+      "category": "out_of_syllabus",
+      "question": "Who is the current president of Brazil?",
+      "language": "en",
+      "expectedDisposition": "refused",
+      "expectedCurriculumTopic": null,
+      "expectedPersistedTopicLabel": null,
+      "expectedSource": null,
+      "expectedEvidence": {
+        "locators": [],
+        "chunkIds": []
+      },
+      "requiredConcepts": [],
+      "forbiddenUnsupportedClaims": ["Any name or current-affairs answer"],
+      "asrInvolved": false,
+      "groundTruthJustification": "Current political officeholders are outside the approved science corpus and require a refusal before generation."
+    },
+    {
+      "id": "out-of-syllabus-cake-08",
+      "category": "out_of_syllabus",
+      "question": "How do I bake a chocolate cake?",
+      "language": "en",
+      "expectedDisposition": "refused",
+      "expectedCurriculumTopic": null,
+      "expectedPersistedTopicLabel": null,
+      "expectedSource": null,
+      "expectedEvidence": {
+        "locators": [],
+        "chunkIds": []
+      },
+      "requiredConcepts": [],
+      "forbiddenUnsupportedClaims": ["Ingredients", "cooking temperature", "recipe instructions"],
+      "asrInvolved": false,
+      "groundTruthJustification": "A recipe is outside the approved STEM curriculum corpus and must not be answered from general knowledge."
+    },
+    {
+      "id": "misspelling-kinetic-formula-09",
+      "category": "misspelling_or_conversational",
+      "question": "Please help me with the kinectic energy formula.",
+      "language": "en",
+      "expectedDisposition": "completed",
+      "expectedCurriculumTopic": "Mechanical Energy",
+      "expectedPersistedTopicLabel": "Everything Science",
+      "expectedSource": {
+        "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+        "title": "Basic Science Text"
+      },
+      "expectedEvidence": {
+        "locators": ["page 465", "page 466"],
+        "chunkIds": [
+          "e58a077cf7e23ef0b71937cb1527edfda18c40a89015817d3fdf786160628480",
+          "cd113b5e5bd36905bf1a8bb5fae7921a2e862180740cb671f9464ec56d434d45"
+        ]
+      },
+      "requiredConcepts": ["correct kinetic spelling", "EK = 1/2 mv²", "mass in kilograms", "velocity in metres per second"],
+      "forbiddenUnsupportedClaims": ["Kinetic energy does not depend on velocity"],
+      "asrInvolved": false,
+      "groundTruthJustification": "Pages 465-466 define the variables and apply the kinetic-energy equation; the query transformer should correct the misspelling."
+    },
+    {
+      "id": "boundary-kinetic-definition-10",
+      "category": "related_insufficient_evidence",
+      "question": "What is kinetic energy?",
+      "language": "en",
+      "expectedDisposition": "refused",
+      "expectedCurriculumTopic": "Mechanical Energy",
+      "expectedPersistedTopicLabel": "Everything Science",
+      "expectedSource": {
+        "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+        "title": "Basic Science Text"
+      },
+      "expectedEvidence": {
+        "locators": ["page 465"],
+        "chunkIds": ["e58a077cf7e23ef0b71937cb1527edfda18c40a89015817d3fdf786160628480"]
+      },
+      "requiredConcepts": [],
+      "forbiddenUnsupportedClaims": ["A definition supplied from model knowledge when the retrieved passage only states dependencies and variables"],
+      "asrInvolved": false,
+      "groundTruthJustification": "The prior locked live validation retrieved related mechanical-energy material but lacked an explicit definition and safely refused; this fixture preserves that evidence-coverage boundary."
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "evaluationRunId": "mock-2026-07-24T15-15-30-683Z-2356b61b",
+  "timestamp": "2026-07-24T15:15:30.683Z",
+  "mode": "mock",
+  "git": {
+    "commit": "uncommitted-no-head",
+    "dirty": true
+  },
+  "applicationVersion": "0.1.0",
+  "fixtureVersion": "1.0.0",
+  "corpus": {
+    "description": "Locally ingested, page-aware Basic Science Text corpus used for Milestones 2-6.",
+    "documents": [
+      {
+        "id": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+        "title": "Basic Science Text",
+        "subject": "Physical Science",
+        "schoolLevel": "SS1",
+        "curriculum": "NERDC",
+        "licence": "CC BY-ND",
+        "ingestionId": "b2713131-4aa0-47b2-abd6-0a390d074546"
+      },
+      {
+        "id": "2ca49518-71e1-412d-aebe-3c4b46191628",
+        "title": "Basic Science Text",
+        "subject": "Natural Science",
+        "schoolLevel": "SS1",
+        "curriculum": "NERDC",
+        "licence": "CC BY-ND",
+        "ingestionId": "1f016181-78d2-4f52-b32f-2efe16e5625f"
+      }
+    ],
+    "attributionLimitation": "The local corpus metadata records the licence and title but does not record a source URL, named author, or publisher. Publication should resolve this provenance gap."
+  },
+  "retrieval": {
+    "threshold": 0.65,
+    "topK": 5
+  },
+  "providers": {
+    "tutor": "gpt-5.6-terra",
+    "verifier": "gpt-5.6-terra",
+    "queryTransformer": "gpt-5.6-luna",
+    "embedding": "text-embedding-3-small",
+    "asr": "gpt-4o-mini-transcribe-2025-12-15",
+    "tts": {
+      "provider": "yarngpt",
+      "apiVersion": "v1",
+      "voice": "Chinenye",
+      "format": "mp3"
+    }
+  },
+  "pricing": {
+    "version": "unconfigured-2026-07-24",
+    "currency": "NGN",
+    "effectiveDate": null,
+    "rateConfigured": false,
+    "unit": "per_1000_characters",
+    "costUnavailable": true
+  },
+  "relevantConfiguration": {
+    "language": "en",
+    "yarnGptMaxInputCharacters": 2000,
+    "yarnGptTimeoutMs": 30000,
+    "noSecretsIncluded": true
+  }
+}

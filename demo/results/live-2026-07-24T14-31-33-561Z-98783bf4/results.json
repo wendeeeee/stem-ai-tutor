@@ -1,0 +1,1325 @@
+{
+  "evaluationRunId": "live-2026-07-24T14-31-33-561Z-98783bf4",
+  "mode": "live",
+  "generatedAt": "2026-07-24T14:31:33.561Z",
+  "fixtureVersion": "1.0.0",
+  "resultCount": 10,
+  "aggregates": {
+    "fixtureCount": 10,
+    "failedRunCount": 0,
+    "dispositionAccuracy": 0.7,
+    "retrievalHitRate": 1,
+    "correctRefusalRate": 0.6666666666666666,
+    "incorrectRefusalRate": 0.2857142857142857,
+    "citationIntegrityRate": 0.7142857142857143,
+    "groundedCompletionRate": 0.7142857142857143,
+    "revisionRate": 0.2,
+    "latencyMs": {
+      "median": 28732,
+      "p95": 42076
+    },
+    "cost": {
+      "status": "partially_unavailable",
+      "medianEstimated": null,
+      "medianKnownSubtotalUsd": 0.02195516,
+      "totalEstimated": null,
+      "totalKnownSubtotalUsd": 0.23064668,
+      "unavailableRunCount": 6
+    },
+    "providerFailureCount": 0,
+    "yarnGptCallCount": 6,
+    "yarnGptSynthesisSuccessRate": 1,
+    "endToEndYarnGptVoiceSuccessRate": 0.7142857142857143,
+    "medianYarnGptLatencyMs": 23220,
+    "actualCompletionCount": 6
+  },
+  "results": [
+    {
+      "fixtureId": "supported-sound-speed-01",
+      "category": "supported",
+      "question": "What factors affect the speed of sound in a material?",
+      "language": "en",
+      "asrInvolved": false,
+      "expectedDisposition": "completed",
+      "actualDisposition": "completed",
+      "dispositionCorrect": true,
+      "tutorRunId": "5c3ee05d-58b1-4f86-babd-e24d256f04c4",
+      "retrievedChunks": [
+        {
+          "chunkId": "912cc184ede2db40f3356c949e51c74fc89cb341035218d919b2aa6b3f3b6cfe",
+          "topic": "Everything Science",
+          "locator": "page 184",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.6749047144360859
+        }
+      ],
+      "retrievedChunkIds": [
+        "912cc184ede2db40f3356c949e51c74fc89cb341035218d919b2aa6b3f3b6cfe"
+      ],
+      "retrievedTopics": [
+        "Everything Science"
+      ],
+      "retrievalScores": [
+        {
+          "chunkId": "912cc184ede2db40f3356c949e51c74fc89cb341035218d919b2aa6b3f3b6cfe",
+          "hybridScore": 0.6749047144360859
+        }
+      ],
+      "expectedSourceHit": true,
+      "expectedChunkHit": true,
+      "refusalResult": {
+        "expected": false,
+        "actual": false,
+        "correct": true
+      },
+      "citationIntegrity": {
+        "structural": true,
+        "verifierJudgement": true,
+        "manualAuthorEvidenceReview": "not_reviewed"
+      },
+      "groundingVerifier": {
+        "reasons": [
+          "The draft directly answers the question and identifies medium, temperature, and pressure as factors affecting sound speed.",
+          "All explanatory statements and the numerical air-speed example are supported by the supplied curriculum passage."
+        ],
+        "grounded": true,
+        "revisionGuidance": null,
+        "unsupportedClaims": [],
+        "checkedCitationIds": [
+          "912cc184ede2db40f3356c949e51c74fc89cb341035218d919b2aa6b3f3b6cfe"
+        ],
+        "revisionRecommended": false
+      },
+      "revisionCount": 0,
+      "stageLatenciesMs": {
+        "query-transformation": 2461,
+        "retrieval": 5860,
+        "tutor": 3993,
+        "verification": 2051
+      },
+      "totalLatencyMs": 42076,
+      "asrLatencyMs": null,
+      "yarnGptTts": {
+        "provider": "yarngpt",
+        "apiVersion": "v1",
+        "voice": "Chinenye",
+        "format": "mp3",
+        "latencyMs": 27596,
+        "synthesisSuccess": true,
+        "failureCode": null,
+        "outputByteCount": 592266,
+        "estimatedCost": null,
+        "pricingCurrency": "NGN",
+        "costStatus": "unavailable"
+      },
+      "tokenUsage": {
+        "input": 2989,
+        "total": 3537,
+        "output": 548
+      },
+      "estimatedCost": {
+        "status": "unavailable",
+        "knownSubtotalUsd": 0.014820260000000002,
+        "estimatedTotal": null,
+        "currency": null,
+        "unavailableComponents": [
+          "yarngpt_tts"
+        ]
+      },
+      "safeError": null,
+      "reinforcementStatus": "not_evaluated"
+    },
+    {
+      "fixtureId": "supported-resistance-02",
+      "category": "supported",
+      "question": "What causes resistance in an electric circuit?",
+      "language": "en",
+      "asrInvolved": false,
+      "expectedDisposition": "completed",
+      "actualDisposition": "completed",
+      "dispositionCorrect": true,
+      "tutorRunId": "0dfb2327-dee1-473d-aeb5-9597a68d0cac",
+      "retrievedChunks": [
+        {
+          "chunkId": "760963c581fec5fa684ac18cf0db73c8b5b03ea2b8aff8f69fbcb062ff2274d3",
+          "topic": "Everything Science",
+          "locator": "page 304",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8295454581578573
+        },
+        {
+          "chunkId": "fa8fd5712e817eeba607b23e93bb251e9f06643272193f8d80eeb5b115407bf2",
+          "topic": "Everything Science",
+          "locator": "page 323",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7620851397514343
+        },
+        {
+          "chunkId": "a6d4537cf6f587e996e4faadeb9b21d588392842753a292e26ceb60d3b12db15",
+          "topic": "Everything Science",
+          "locator": "page 328",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7620851397514343
+        },
+        {
+          "chunkId": "13131c5c33699fda922b6d054eba83d48cc6d8f8a2527862b1530c756c1bd7fe",
+          "topic": "Everything Science",
+          "locator": "page 305",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7559523830811182
+        },
+        {
+          "chunkId": "fb36a8656ef837a5263c25b53c0a945aaa3c9f716aed9e90fd2f9a474600ac0c",
+          "topic": "Everything Science",
+          "locator": "page 326",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7481962541739146
+        }
+      ],
+      "retrievedChunkIds": [
+        "760963c581fec5fa684ac18cf0db73c8b5b03ea2b8aff8f69fbcb062ff2274d3",
+        "fa8fd5712e817eeba607b23e93bb251e9f06643272193f8d80eeb5b115407bf2",
+        "a6d4537cf6f587e996e4faadeb9b21d588392842753a292e26ceb60d3b12db15",
+        "13131c5c33699fda922b6d054eba83d48cc6d8f8a2527862b1530c756c1bd7fe",
+        "fb36a8656ef837a5263c25b53c0a945aaa3c9f716aed9e90fd2f9a474600ac0c"
+      ],
+      "retrievedTopics": [
+        "Everything Science"
+      ],
+      "retrievalScores": [
+        {
+          "chunkId": "760963c581fec5fa684ac18cf0db73c8b5b03ea2b8aff8f69fbcb062ff2274d3",
+          "hybridScore": 0.8295454581578573
+        },
+        {
+          "chunkId": "fa8fd5712e817eeba607b23e93bb251e9f06643272193f8d80eeb5b115407bf2",
+          "hybridScore": 0.7620851397514343
+        },
+        {
+          "chunkId": "a6d4537cf6f587e996e4faadeb9b21d588392842753a292e26ceb60d3b12db15",
+          "hybridScore": 0.7620851397514343
+        },
+        {
+          "chunkId": "13131c5c33699fda922b6d054eba83d48cc6d8f8a2527862b1530c756c1bd7fe",
+          "hybridScore": 0.7559523830811182
+        },
+        {
+          "chunkId": "fb36a8656ef837a5263c25b53c0a945aaa3c9f716aed9e90fd2f9a474600ac0c",
+          "hybridScore": 0.7481962541739146
+        }
+      ],
+      "expectedSourceHit": true,
+      "expectedChunkHit": true,
+      "refusalResult": {
+        "expected": false,
+        "actual": false,
+        "correct": true
+      },
+      "citationIntegrity": {
+        "structural": true,
+        "verifierJudgement": true,
+        "manualAuthorEvidenceReview": "not_reviewed"
+      },
+      "groundingVerifier": {
+        "reasons": [
+          "The draft’s explanation that electrons interact with particles in a metal conductor, transfer kinetic energy, slow down, and thereby produce resistance is directly supported by page 304.",
+          "The heating effect, light-bulb filament example, and effects of length and cross-sectional area are supported by pages 304–305.",
+          "The statement that resistance depends on the material is supported by page 326."
+        ],
+        "grounded": true,
+        "revisionGuidance": null,
+        "unsupportedClaims": [],
+        "checkedCitationIds": [
+          "760963c581fec5fa684ac18cf0db73c8b5b03ea2b8aff8f69fbcb062ff2274d3",
+          "13131c5c33699fda922b6d054eba83d48cc6d8f8a2527862b1530c756c1bd7fe",
+          "fb36a8656ef837a5263c25b53c0a945aaa3c9f716aed9e90fd2f9a474600ac0c"
+        ],
+        "revisionRecommended": false
+      },
+      "revisionCount": 0,
+      "stageLatenciesMs": {
+        "query-transformation": 1550,
+        "retrieval": 3831,
+        "tutor": 4134,
+        "verification": 3482
+      },
+      "totalLatencyMs": 36281,
+      "asrLatencyMs": null,
+      "yarnGptTts": {
+        "provider": "yarngpt",
+        "apiVersion": "v1",
+        "voice": "Chinenye",
+        "format": "mp3",
+        "latencyMs": 23220,
+        "synthesisSuccess": true,
+        "failureCode": null,
+        "outputByteCount": 535214,
+        "estimatedCost": null,
+        "pricingCurrency": "NGN",
+        "costStatus": "unavailable"
+      },
+      "tokenUsage": {
+        "input": 7929,
+        "total": 8606,
+        "output": 677
+      },
+      "estimatedCost": {
+        "status": "unavailable",
+        "knownSubtotalUsd": 0.0291982,
+        "estimatedTotal": null,
+        "currency": null,
+        "unavailableComponents": [
+          "yarngpt_tts"
+        ]
+      },
+      "safeError": null,
+      "reinforcementStatus": "not_evaluated"
+    },
+    {
+      "fixtureId": "supported-physical-change-03",
+      "category": "supported",
+      "question": "What happens during a physical change in matter?",
+      "language": "en",
+      "asrInvolved": false,
+      "expectedDisposition": "completed",
+      "actualDisposition": "completed",
+      "dispositionCorrect": true,
+      "tutorRunId": "34177a30-db37-424c-800a-eeb7866f4be3",
+      "retrievedChunks": [
+        {
+          "chunkId": "7f0a00f938a54b8c60f2ac99ce50d5d754fba050c1b20898bad2f9f35264a65c",
+          "topic": "Everything Science",
+          "locator": "page 229",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8666666686534882
+        },
+        {
+          "chunkId": "e0bc86a42e342249afb23ea7c4349503c0541e78ced32a2043788f795b4759a8",
+          "topic": "Everything Science",
+          "locator": "page 232",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8666666686534882
+        },
+        {
+          "chunkId": "2f2d8c8544ad7589e298bb6da46cfd369a0edafe050b53a8ab91761deac9b598",
+          "topic": "Everything Science",
+          "locator": "page 41",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8547619044780731
+        },
+        {
+          "chunkId": "b3465923e0f7ed929b90ec65643898b84352f937195b075fce71245ff16cbe61",
+          "topic": "Everything Science",
+          "locator": "page 121",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8095238149166107
+        },
+        {
+          "chunkId": "4575502508bc45442864540202aad51f93ffcd4a8307f4ca9edb8bfda4b02768",
+          "topic": "Everything Science",
+          "locator": "page 97",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7690476179122925
+        }
+      ],
+      "retrievedChunkIds": [
+        "7f0a00f938a54b8c60f2ac99ce50d5d754fba050c1b20898bad2f9f35264a65c",
+        "e0bc86a42e342249afb23ea7c4349503c0541e78ced32a2043788f795b4759a8",
+        "2f2d8c8544ad7589e298bb6da46cfd369a0edafe050b53a8ab91761deac9b598",
+        "b3465923e0f7ed929b90ec65643898b84352f937195b075fce71245ff16cbe61",
+        "4575502508bc45442864540202aad51f93ffcd4a8307f4ca9edb8bfda4b02768"
+      ],
+      "retrievedTopics": [
+        "Everything Science"
+      ],
+      "retrievalScores": [
+        {
+          "chunkId": "7f0a00f938a54b8c60f2ac99ce50d5d754fba050c1b20898bad2f9f35264a65c",
+          "hybridScore": 0.8666666686534882
+        },
+        {
+          "chunkId": "e0bc86a42e342249afb23ea7c4349503c0541e78ced32a2043788f795b4759a8",
+          "hybridScore": 0.8666666686534882
+        },
+        {
+          "chunkId": "2f2d8c8544ad7589e298bb6da46cfd369a0edafe050b53a8ab91761deac9b598",
+          "hybridScore": 0.8547619044780731
+        },
+        {
+          "chunkId": "b3465923e0f7ed929b90ec65643898b84352f937195b075fce71245ff16cbe61",
+          "hybridScore": 0.8095238149166107
+        },
+        {
+          "chunkId": "4575502508bc45442864540202aad51f93ffcd4a8307f4ca9edb8bfda4b02768",
+          "hybridScore": 0.7690476179122925
+        }
+      ],
+      "expectedSourceHit": true,
+      "expectedChunkHit": true,
+      "refusalResult": {
+        "expected": false,
+        "actual": false,
+        "correct": true
+      },
+      "citationIntegrity": {
+        "structural": true,
+        "verifierJudgement": true,
+        "manualAuthorEvidenceReview": "not_reviewed"
+      },
+      "groundingVerifier": {
+        "reasons": [
+          "The cited curriculum passage supports that a physical change may alter form, including state, while identity and chemical makeup remain unchanged because particles are not broken up.",
+          "The examples of water evaporating, dissolving, and conduction are all explicitly identified as physical changes in the cited passage."
+        ],
+        "grounded": true,
+        "revisionGuidance": null,
+        "unsupportedClaims": [],
+        "checkedCitationIds": [
+          "7f0a00f938a54b8c60f2ac99ce50d5d754fba050c1b20898bad2f9f35264a65c"
+        ],
+        "revisionRecommended": false
+      },
+      "revisionCount": 0,
+      "stageLatenciesMs": {
+        "query-transformation": 1559,
+        "retrieval": 3294,
+        "tutor": 4471,
+        "verification": 2316
+      },
+      "totalLatencyMs": 28732,
+      "asrLatencyMs": null,
+      "yarnGptTts": {
+        "provider": "yarngpt",
+        "apiVersion": "v1",
+        "voice": "Chinenye",
+        "format": "mp3",
+        "latencyMs": 17020,
+        "synthesisSuccess": true,
+        "failureCode": null,
+        "outputByteCount": 322055,
+        "estimatedCost": null,
+        "pricingCurrency": "NGN",
+        "costStatus": "unavailable"
+      },
+      "tokenUsage": {
+        "input": 6528,
+        "total": 6953,
+        "output": 425
+      },
+      "estimatedCost": {
+        "status": "unavailable",
+        "knownSubtotalUsd": 0.02195516,
+        "estimatedTotal": null,
+        "currency": null,
+        "unavailableComponents": [
+          "yarngpt_tts"
+        ]
+      },
+      "safeError": null,
+      "reinforcementStatus": "not_evaluated"
+    },
+    {
+      "fixtureId": "supported-si-units-04",
+      "category": "supported",
+      "question": "What are SI units?",
+      "language": "en",
+      "asrInvolved": false,
+      "expectedDisposition": "completed",
+      "actualDisposition": "refused",
+      "dispositionCorrect": false,
+      "tutorRunId": "2633e217-8cc5-4120-8d0e-39ef4be8b9af",
+      "retrievedChunks": [
+        {
+          "chunkId": "f53df375aa51059459ef299129819dcac2ffe1a0ca404199f2c88f87d5c26911",
+          "topic": "Everything Science",
+          "locator": "page 20",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 1
+        },
+        {
+          "chunkId": "9c998bb044f4c2beff614e21e9744ccfb7d7c0e9a49ac6e8180d03709ebc5fdf",
+          "topic": "Everything Science",
+          "locator": "page 461",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 1
+        },
+        {
+          "chunkId": "2be9857c945e0f6c29dda86c50df21bf95022c516fe787da768725d16f672e8f",
+          "topic": "Everything Science",
+          "locator": "page 367",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.9259259303410848
+        },
+        {
+          "chunkId": "cd113b5e5bd36905bf1a8bb5fae7921a2e862180740cb671f9464ec56d434d45",
+          "topic": "Everything Science",
+          "locator": "page 466",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.9259259303410848
+        },
+        {
+          "chunkId": "345f8715915cf7e901239a210b46def3b7bed9056ad82755f7147924346def5a",
+          "topic": "Everything Science",
+          "locator": "page 88",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.9259259303410848
+        }
+      ],
+      "retrievedChunkIds": [
+        "f53df375aa51059459ef299129819dcac2ffe1a0ca404199f2c88f87d5c26911",
+        "9c998bb044f4c2beff614e21e9744ccfb7d7c0e9a49ac6e8180d03709ebc5fdf",
+        "2be9857c945e0f6c29dda86c50df21bf95022c516fe787da768725d16f672e8f",
+        "cd113b5e5bd36905bf1a8bb5fae7921a2e862180740cb671f9464ec56d434d45",
+        "345f8715915cf7e901239a210b46def3b7bed9056ad82755f7147924346def5a"
+      ],
+      "retrievedTopics": [
+        "Everything Science"
+      ],
+      "retrievalScores": [
+        {
+          "chunkId": "f53df375aa51059459ef299129819dcac2ffe1a0ca404199f2c88f87d5c26911",
+          "hybridScore": 1
+        },
+        {
+          "chunkId": "9c998bb044f4c2beff614e21e9744ccfb7d7c0e9a49ac6e8180d03709ebc5fdf",
+          "hybridScore": 1
+        },
+        {
+          "chunkId": "2be9857c945e0f6c29dda86c50df21bf95022c516fe787da768725d16f672e8f",
+          "hybridScore": 0.9259259303410848
+        },
+        {
+          "chunkId": "cd113b5e5bd36905bf1a8bb5fae7921a2e862180740cb671f9464ec56d434d45",
+          "hybridScore": 0.9259259303410848
+        },
+        {
+          "chunkId": "345f8715915cf7e901239a210b46def3b7bed9056ad82755f7147924346def5a",
+          "hybridScore": 0.9259259303410848
+        }
+      ],
+      "expectedSourceHit": true,
+      "expectedChunkHit": false,
+      "refusalResult": {
+        "expected": false,
+        "actual": true,
+        "correct": false
+      },
+      "citationIntegrity": {
+        "structural": null,
+        "verifierJudgement": false,
+        "manualAuthorEvidenceReview": "not_reviewed"
+      },
+      "groundingVerifier": {
+        "reasons": [
+          "The draft says SI units are “one of the main systems,” but the evidence lists SI units among the main systems without establishing that singular phrasing.",
+          "The final statement says kilograms and metres are stated to be SI units, but the cited example only says all quantities are in SI units; it does not explicitly identify kg and m as SI units."
+        ],
+        "grounded": false,
+        "revisionGuidance": null,
+        "unsupportedClaims": [
+          "SI units are one of the main systems of units used to state measurements of physical quantities.",
+          "Kilograms (kg) and metres (m) are stated to be SI units."
+        ],
+        "checkedCitationIds": [
+          "f53df375aa51059459ef299129819dcac2ffe1a0ca404199f2c88f87d5c26911",
+          "9c998bb044f4c2beff614e21e9744ccfb7d7c0e9a49ac6e8180d03709ebc5fdf"
+        ],
+        "revisionRecommended": false
+      },
+      "revisionCount": 1,
+      "stageLatenciesMs": {
+        "query-transformation": 1570,
+        "retrieval": 3326,
+        "tutor": 3142,
+        "verification": 7492,
+        "revision": 3366
+      },
+      "totalLatencyMs": 18999,
+      "asrLatencyMs": null,
+      "yarnGptTts": {
+        "provider": "yarngpt",
+        "apiVersion": "v1",
+        "voice": "Chinenye",
+        "format": "mp3",
+        "latencyMs": null,
+        "synthesisSuccess": null,
+        "failureCode": null,
+        "outputByteCount": null,
+        "estimatedCost": null,
+        "pricingCurrency": "NGN",
+        "costStatus": "unavailable"
+      },
+      "tokenUsage": {
+        "input": 12790,
+        "total": 13973,
+        "output": 1183
+      },
+      "estimatedCost": {
+        "status": "estimated",
+        "knownSubtotalUsd": 0.049038599999999995,
+        "estimatedTotal": 0.049038599999999995,
+        "currency": "USD",
+        "unavailableComponents": []
+      },
+      "safeError": null,
+      "reinforcementStatus": "not_evaluated"
+    },
+    {
+      "fixtureId": "supported-cell-units-05",
+      "category": "supported",
+      "question": "Why are cells called the basic units of life?",
+      "language": "en",
+      "asrInvolved": false,
+      "expectedDisposition": "completed",
+      "actualDisposition": "completed",
+      "dispositionCorrect": true,
+      "tutorRunId": "6c829c62-322f-42c2-91a1-63f0e19ccb39",
+      "retrievedChunks": [
+        {
+          "chunkId": "c8ca29500d04f7656a8826431e1fd312a6e52f69e13b067e98b0dfc024bac1cc",
+          "topic": "Everything Science",
+          "locator": "page 32",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "2ca49518-71e1-412d-aebe-3c4b46191628",
+          "hybridScore": 0.8888888905445734
+        },
+        {
+          "chunkId": "3801f31f49c7d44e84ef02db5f23e53d6e575d2521ba0fcc291ca59da38894cf",
+          "topic": "Everything Science",
+          "locator": "page 16",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "2ca49518-71e1-412d-aebe-3c4b46191628",
+          "hybridScore": 0.8888888905445734
+        },
+        {
+          "chunkId": "017be051108cabcc8b025ecc70644721de4d05bf0fc78733e1bb58d0e71ed6ef",
+          "topic": "Everything Science",
+          "locator": "page 22",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "2ca49518-71e1-412d-aebe-3c4b46191628",
+          "hybridScore": 0.875
+        },
+        {
+          "chunkId": "844fea895db5a140f1e63a9fea1836823edf2cf3dca411659fbf7c10a2290f0b",
+          "topic": "Everything Science",
+          "locator": "page 24",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "2ca49518-71e1-412d-aebe-3c4b46191628",
+          "hybridScore": 0.875
+        },
+        {
+          "chunkId": "2a0011b7cd653d9c859697beb1d4a4a6faf9fd51d3a4325f1aa24ff9aebbaf6b",
+          "topic": "Everything Science",
+          "locator": "page 20",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "2ca49518-71e1-412d-aebe-3c4b46191628",
+          "hybridScore": 0.8611111119389534
+        }
+      ],
+      "retrievedChunkIds": [
+        "c8ca29500d04f7656a8826431e1fd312a6e52f69e13b067e98b0dfc024bac1cc",
+        "3801f31f49c7d44e84ef02db5f23e53d6e575d2521ba0fcc291ca59da38894cf",
+        "017be051108cabcc8b025ecc70644721de4d05bf0fc78733e1bb58d0e71ed6ef",
+        "844fea895db5a140f1e63a9fea1836823edf2cf3dca411659fbf7c10a2290f0b",
+        "2a0011b7cd653d9c859697beb1d4a4a6faf9fd51d3a4325f1aa24ff9aebbaf6b"
+      ],
+      "retrievedTopics": [
+        "Everything Science"
+      ],
+      "retrievalScores": [
+        {
+          "chunkId": "c8ca29500d04f7656a8826431e1fd312a6e52f69e13b067e98b0dfc024bac1cc",
+          "hybridScore": 0.8888888905445734
+        },
+        {
+          "chunkId": "3801f31f49c7d44e84ef02db5f23e53d6e575d2521ba0fcc291ca59da38894cf",
+          "hybridScore": 0.8888888905445734
+        },
+        {
+          "chunkId": "017be051108cabcc8b025ecc70644721de4d05bf0fc78733e1bb58d0e71ed6ef",
+          "hybridScore": 0.875
+        },
+        {
+          "chunkId": "844fea895db5a140f1e63a9fea1836823edf2cf3dca411659fbf7c10a2290f0b",
+          "hybridScore": 0.875
+        },
+        {
+          "chunkId": "2a0011b7cd653d9c859697beb1d4a4a6faf9fd51d3a4325f1aa24ff9aebbaf6b",
+          "hybridScore": 0.8611111119389534
+        }
+      ],
+      "expectedSourceHit": true,
+      "expectedChunkHit": false,
+      "refusalResult": {
+        "expected": false,
+        "actual": false,
+        "correct": true
+      },
+      "citationIntegrity": {
+        "structural": true,
+        "verifierJudgement": true,
+        "manualAuthorEvidenceReview": "not_reviewed"
+      },
+      "groundingVerifier": {
+        "reasons": [
+          "The explanation is supported by page 32: single-celled organisms’ cells perform all life processes; cells in many-celled organisms are specialised; specialised cells form tissues, tissues form organs, and organs form organ systems.",
+          "The conclusion accurately synthesizes these supported points to answer why cells are basic units of life."
+        ],
+        "grounded": true,
+        "revisionGuidance": null,
+        "unsupportedClaims": [],
+        "checkedCitationIds": [
+          "c8ca29500d04f7656a8826431e1fd312a6e52f69e13b067e98b0dfc024bac1cc"
+        ],
+        "revisionRecommended": false
+      },
+      "revisionCount": 1,
+      "stageLatenciesMs": {
+        "query-transformation": 1454,
+        "retrieval": 3724,
+        "tutor": 3710,
+        "verification": 5176,
+        "revision": 3301
+      },
+      "totalLatencyMs": 40180,
+      "asrLatencyMs": null,
+      "yarnGptTts": {
+        "provider": "yarngpt",
+        "apiVersion": "v1",
+        "voice": "Chinenye",
+        "format": "mp3",
+        "latencyMs": 22717,
+        "synthesisSuccess": true,
+        "failureCode": null,
+        "outputByteCount": 398751,
+        "estimatedCost": null,
+        "pricingCurrency": "NGN",
+        "costStatus": "unavailable"
+      },
+      "tokenUsage": {
+        "input": 13207,
+        "total": 14225,
+        "output": 1018
+      },
+      "estimatedCost": {
+        "status": "unavailable",
+        "knownSubtotalUsd": 0.04749372,
+        "estimatedTotal": null,
+        "currency": null,
+        "unavailableComponents": [
+          "yarngpt_tts"
+        ]
+      },
+      "safeError": null,
+      "reinforcementStatus": "not_evaluated"
+    },
+    {
+      "fixtureId": "supported-potential-energy-06",
+      "category": "supported",
+      "question": "What is gravitational potential energy and what equation is used for it?",
+      "language": "en",
+      "asrInvolved": false,
+      "expectedDisposition": "completed",
+      "actualDisposition": "completed",
+      "dispositionCorrect": true,
+      "tutorRunId": "a607dd9d-99c5-4730-9e2f-50f6e0c44e45",
+      "retrievedChunks": [
+        {
+          "chunkId": "fc5d7e7b359ceaf5f394cf7634d11304984b6bc94113a67d0604327cb78f6c5e",
+          "topic": "Everything Science",
+          "locator": "page 463",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8888888905445734
+        },
+        {
+          "chunkId": "48a30350ff9fb14eeb1b743fce103c877defb4d71ef209e2c06da1e80d0c6a2d",
+          "topic": "Everything Science",
+          "locator": "page 460",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8434343487024307
+        },
+        {
+          "chunkId": "cb9fb6c70a726e6312f9961cfb20a22f8778a23607304cb83320f410e16ab906",
+          "topic": "Everything Science",
+          "locator": "page 459",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.828703706463178
+        },
+        {
+          "chunkId": "9c998bb044f4c2beff614e21e9744ccfb7d7c0e9a49ac6e8180d03709ebc5fdf",
+          "topic": "Everything Science",
+          "locator": "page 461",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7962962985038757
+        },
+        {
+          "chunkId": "28dace9a3642c26a94cc24a5a9a2626ab5a9f549cdcd3cd064a06b81a027a8f1",
+          "topic": "Everything Science",
+          "locator": "page 462",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7962962985038757
+        }
+      ],
+      "retrievedChunkIds": [
+        "fc5d7e7b359ceaf5f394cf7634d11304984b6bc94113a67d0604327cb78f6c5e",
+        "48a30350ff9fb14eeb1b743fce103c877defb4d71ef209e2c06da1e80d0c6a2d",
+        "cb9fb6c70a726e6312f9961cfb20a22f8778a23607304cb83320f410e16ab906",
+        "9c998bb044f4c2beff614e21e9744ccfb7d7c0e9a49ac6e8180d03709ebc5fdf",
+        "28dace9a3642c26a94cc24a5a9a2626ab5a9f549cdcd3cd064a06b81a027a8f1"
+      ],
+      "retrievedTopics": [
+        "Everything Science"
+      ],
+      "retrievalScores": [
+        {
+          "chunkId": "fc5d7e7b359ceaf5f394cf7634d11304984b6bc94113a67d0604327cb78f6c5e",
+          "hybridScore": 0.8888888905445734
+        },
+        {
+          "chunkId": "48a30350ff9fb14eeb1b743fce103c877defb4d71ef209e2c06da1e80d0c6a2d",
+          "hybridScore": 0.8434343487024307
+        },
+        {
+          "chunkId": "cb9fb6c70a726e6312f9961cfb20a22f8778a23607304cb83320f410e16ab906",
+          "hybridScore": 0.828703706463178
+        },
+        {
+          "chunkId": "9c998bb044f4c2beff614e21e9744ccfb7d7c0e9a49ac6e8180d03709ebc5fdf",
+          "hybridScore": 0.7962962985038757
+        },
+        {
+          "chunkId": "28dace9a3642c26a94cc24a5a9a2626ab5a9f549cdcd3cd064a06b81a027a8f1",
+          "hybridScore": 0.7962962985038757
+        }
+      ],
+      "expectedSourceHit": true,
+      "expectedChunkHit": true,
+      "refusalResult": {
+        "expected": false,
+        "actual": false,
+        "correct": true
+      },
+      "citationIntegrity": {
+        "structural": true,
+        "verifierJudgement": true,
+        "manualAuthorEvidenceReview": "not_reviewed"
+      },
+      "groundingVerifier": {
+        "reasons": [
+          "The definition, reference-point qualification, equation, units, symbol meanings, value and units of g, and dependence on height are supported by the retrieved curriculum evidence."
+        ],
+        "grounded": true,
+        "revisionGuidance": null,
+        "unsupportedClaims": [],
+        "checkedCitationIds": [
+          "cb9fb6c70a726e6312f9961cfb20a22f8778a23607304cb83320f410e16ab906",
+          "48a30350ff9fb14eeb1b743fce103c877defb4d71ef209e2c06da1e80d0c6a2d"
+        ],
+        "revisionRecommended": false
+      },
+      "revisionCount": 0,
+      "stageLatenciesMs": {
+        "query-transformation": 1534,
+        "retrieval": 3569,
+        "tutor": 3035,
+        "verification": 1895
+      },
+      "totalLatencyMs": 34604,
+      "asrLatencyMs": null,
+      "yarnGptTts": {
+        "provider": "yarngpt",
+        "apiVersion": "v1",
+        "voice": "Chinenye",
+        "format": "mp3",
+        "latencyMs": 24501,
+        "synthesisSuccess": true,
+        "failureCode": null,
+        "outputByteCount": 399795,
+        "estimatedCost": null,
+        "pricingCurrency": "NGN",
+        "costStatus": "unavailable"
+      },
+      "tokenUsage": {
+        "input": 6531,
+        "total": 7042,
+        "output": 511
+      },
+      "estimatedCost": {
+        "status": "unavailable",
+        "knownSubtotalUsd": 0.023178699999999997,
+        "estimatedTotal": null,
+        "currency": null,
+        "unavailableComponents": [
+          "yarngpt_tts"
+        ]
+      },
+      "safeError": null,
+      "reinforcementStatus": "not_evaluated"
+    },
+    {
+      "fixtureId": "out-of-syllabus-president-07",
+      "category": "out_of_syllabus",
+      "question": "Who is the current president of Brazil?",
+      "language": "en",
+      "asrInvolved": false,
+      "expectedDisposition": "refused",
+      "actualDisposition": "refused",
+      "dispositionCorrect": true,
+      "tutorRunId": "b041f18e-279d-4643-9b03-1f4d7248ca71",
+      "retrievedChunks": [],
+      "retrievedChunkIds": [],
+      "retrievedTopics": [],
+      "retrievalScores": [],
+      "expectedSourceHit": true,
+      "expectedChunkHit": false,
+      "refusalResult": {
+        "expected": true,
+        "actual": true,
+        "correct": true
+      },
+      "citationIntegrity": {
+        "structural": null,
+        "verifierJudgement": false,
+        "manualAuthorEvidenceReview": "not_reviewed"
+      },
+      "groundingVerifier": {
+        "reasons": [
+          "Retrieval returned no sufficient curriculum evidence."
+        ],
+        "grounded": false,
+        "revisionGuidance": null,
+        "unsupportedClaims": [],
+        "checkedCitationIds": [],
+        "revisionRecommended": false
+      },
+      "revisionCount": 0,
+      "stageLatenciesMs": {
+        "query-transformation": 1574,
+        "retrieval": 2286
+      },
+      "totalLatencyMs": 3906,
+      "asrLatencyMs": null,
+      "yarnGptTts": {
+        "provider": "yarngpt",
+        "apiVersion": "v1",
+        "voice": "Chinenye",
+        "format": "mp3",
+        "latencyMs": null,
+        "synthesisSuccess": null,
+        "failureCode": null,
+        "outputByteCount": null,
+        "estimatedCost": null,
+        "pricingCurrency": "NGN",
+        "costStatus": "unavailable"
+      },
+      "tokenUsage": {
+        "input": 225,
+        "total": 264,
+        "output": 39
+      },
+      "estimatedCost": {
+        "status": "estimated",
+        "knownSubtotalUsd": 0.00045508,
+        "estimatedTotal": 0.00045508,
+        "currency": "USD",
+        "unavailableComponents": []
+      },
+      "safeError": null,
+      "reinforcementStatus": "not_evaluated"
+    },
+    {
+      "fixtureId": "out-of-syllabus-cake-08",
+      "category": "out_of_syllabus",
+      "question": "How do I bake a chocolate cake?",
+      "language": "en",
+      "asrInvolved": false,
+      "expectedDisposition": "refused",
+      "actualDisposition": "refused",
+      "dispositionCorrect": true,
+      "tutorRunId": "2fe4a13c-325d-48a5-a678-c0e4f6e909be",
+      "retrievedChunks": [],
+      "retrievedChunkIds": [],
+      "retrievedTopics": [],
+      "retrievalScores": [],
+      "expectedSourceHit": true,
+      "expectedChunkHit": false,
+      "refusalResult": {
+        "expected": true,
+        "actual": true,
+        "correct": true
+      },
+      "citationIntegrity": {
+        "structural": null,
+        "verifierJudgement": false,
+        "manualAuthorEvidenceReview": "not_reviewed"
+      },
+      "groundingVerifier": {
+        "reasons": [
+          "Retrieval returned no sufficient curriculum evidence."
+        ],
+        "grounded": false,
+        "revisionGuidance": null,
+        "unsupportedClaims": [],
+        "checkedCitationIds": [],
+        "revisionRecommended": false
+      },
+      "revisionCount": 0,
+      "stageLatenciesMs": {
+        "query-transformation": 1497,
+        "retrieval": 4347
+      },
+      "totalLatencyMs": 5917,
+      "asrLatencyMs": null,
+      "yarnGptTts": {
+        "provider": "yarngpt",
+        "apiVersion": "v1",
+        "voice": "Chinenye",
+        "format": "mp3",
+        "latencyMs": null,
+        "synthesisSuccess": null,
+        "failureCode": null,
+        "outputByteCount": null,
+        "estimatedCost": null,
+        "pricingCurrency": "NGN",
+        "costStatus": "unavailable"
+      },
+      "tokenUsage": {
+        "input": 231,
+        "total": 281,
+        "output": 50
+      },
+      "estimatedCost": {
+        "status": "estimated",
+        "knownSubtotalUsd": 0.0005212,
+        "estimatedTotal": 0.0005212,
+        "currency": "USD",
+        "unavailableComponents": []
+      },
+      "safeError": null,
+      "reinforcementStatus": "not_evaluated"
+    },
+    {
+      "fixtureId": "misspelling-kinetic-formula-09",
+      "category": "misspelling_or_conversational",
+      "question": "Please help me with the kinectic energy formula.",
+      "language": "en",
+      "asrInvolved": false,
+      "expectedDisposition": "completed",
+      "actualDisposition": "refused",
+      "dispositionCorrect": false,
+      "tutorRunId": "fba86c9e-bb13-4deb-9f7d-75c4fcdd0f9a",
+      "retrievedChunks": [
+        {
+          "chunkId": "760963c581fec5fa684ac18cf0db73c8b5b03ea2b8aff8f69fbcb062ff2274d3",
+          "topic": "Everything Science",
+          "locator": "page 304",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.75
+        },
+        {
+          "chunkId": "af3a593503366ba7c0ca62d135161bd96f9d82d7aa9efd1665946f19d0483952",
+          "topic": "Everything Science",
+          "locator": "page 75",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7388888895511627
+        },
+        {
+          "chunkId": "f21cc7b4c4159581067f22eea2a4f55becc12253b797b3fceeddfa9aa3da0517",
+          "topic": "Everything Science",
+          "locator": "page 273",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7305555582046509
+        },
+        {
+          "chunkId": "92895b433654d01876054c4351ab8f20a29f1b0371e159f171b89d45e5be870f",
+          "topic": "Everything Science",
+          "locator": "page 74",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7222222268581391
+        },
+        {
+          "chunkId": "f1e9cd6a55d2f8010f5799136ce4b115e7cf039656f5b3c8e8a7d6255bef3115",
+          "topic": "Everything Science",
+          "locator": "page 22",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.7166666686534882
+        }
+      ],
+      "retrievedChunkIds": [
+        "760963c581fec5fa684ac18cf0db73c8b5b03ea2b8aff8f69fbcb062ff2274d3",
+        "af3a593503366ba7c0ca62d135161bd96f9d82d7aa9efd1665946f19d0483952",
+        "f21cc7b4c4159581067f22eea2a4f55becc12253b797b3fceeddfa9aa3da0517",
+        "92895b433654d01876054c4351ab8f20a29f1b0371e159f171b89d45e5be870f",
+        "f1e9cd6a55d2f8010f5799136ce4b115e7cf039656f5b3c8e8a7d6255bef3115"
+      ],
+      "retrievedTopics": [
+        "Everything Science"
+      ],
+      "retrievalScores": [
+        {
+          "chunkId": "760963c581fec5fa684ac18cf0db73c8b5b03ea2b8aff8f69fbcb062ff2274d3",
+          "hybridScore": 0.75
+        },
+        {
+          "chunkId": "af3a593503366ba7c0ca62d135161bd96f9d82d7aa9efd1665946f19d0483952",
+          "hybridScore": 0.7388888895511627
+        },
+        {
+          "chunkId": "f21cc7b4c4159581067f22eea2a4f55becc12253b797b3fceeddfa9aa3da0517",
+          "hybridScore": 0.7305555582046509
+        },
+        {
+          "chunkId": "92895b433654d01876054c4351ab8f20a29f1b0371e159f171b89d45e5be870f",
+          "hybridScore": 0.7222222268581391
+        },
+        {
+          "chunkId": "f1e9cd6a55d2f8010f5799136ce4b115e7cf039656f5b3c8e8a7d6255bef3115",
+          "hybridScore": 0.7166666686534882
+        }
+      ],
+      "expectedSourceHit": true,
+      "expectedChunkHit": false,
+      "refusalResult": {
+        "expected": false,
+        "actual": true,
+        "correct": false
+      },
+      "citationIntegrity": {
+        "structural": null,
+        "verifierJudgement": false,
+        "manualAuthorEvidenceReview": "not_reviewed"
+      },
+      "groundingVerifier": {
+        "reasons": [
+          "The supplied curriculum passages do not state the kinetic-energy formula or provide values for a worked example."
+        ],
+        "grounded": false,
+        "revisionGuidance": null,
+        "unsupportedClaims": [],
+        "checkedCitationIds": [
+          "af3a593503366ba7c0ca62d135161bd96f9d82d7aa9efd1665946f19d0483952",
+          "760963c581fec5fa684ac18cf0db73c8b5b03ea2b8aff8f69fbcb062ff2274d3",
+          "f1e9cd6a55d2f8010f5799136ce4b115e7cf039656f5b3c8e8a7d6255bef3115"
+        ],
+        "revisionRecommended": false
+      },
+      "revisionCount": 0,
+      "stageLatenciesMs": {
+        "query-transformation": 1403,
+        "retrieval": 3531,
+        "tutor": 3451
+      },
+      "totalLatencyMs": 8528,
+      "asrLatencyMs": null,
+      "yarnGptTts": {
+        "provider": "yarngpt",
+        "apiVersion": "v1",
+        "voice": "Chinenye",
+        "format": "mp3",
+        "latencyMs": null,
+        "synthesisSuccess": null,
+        "failureCode": null,
+        "outputByteCount": null,
+        "estimatedCost": null,
+        "pricingCurrency": "NGN",
+        "costStatus": "unavailable"
+      },
+      "tokenUsage": {
+        "input": 3764,
+        "total": 4150,
+        "output": 386
+      },
+      "estimatedCost": {
+        "status": "estimated",
+        "knownSubtotalUsd": 0.01432764,
+        "estimatedTotal": 0.01432764,
+        "currency": "USD",
+        "unavailableComponents": []
+      },
+      "safeError": null,
+      "reinforcementStatus": "not_evaluated"
+    },
+    {
+      "fixtureId": "boundary-kinetic-definition-10",
+      "category": "related_insufficient_evidence",
+      "question": "What is kinetic energy?",
+      "language": "en",
+      "asrInvolved": false,
+      "expectedDisposition": "refused",
+      "actualDisposition": "completed",
+      "dispositionCorrect": false,
+      "tutorRunId": "037c37bc-02b6-4c10-b1e4-2a8b8bd9945b",
+      "retrievedChunks": [
+        {
+          "chunkId": "cb9fb6c70a726e6312f9961cfb20a22f8778a23607304cb83320f410e16ab906",
+          "topic": "Everything Science",
+          "locator": "page 459",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8541666641831398
+        },
+        {
+          "chunkId": "e4dbe3679ebdb7ce29769be4256033c1e49eab37680091a37b0fef3b340536aa",
+          "topic": "Everything Science",
+          "locator": "page 72",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8541666641831398
+        },
+        {
+          "chunkId": "8ea16008af000dd02685f8d882bbefca850e5d46d6baa3d0d18a7cb3d74b5894",
+          "topic": "Everything Science",
+          "locator": "page 471",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8333333358168602
+        },
+        {
+          "chunkId": "fcf0ac5a39bd1393468a931dc95f2539df552fc2a20ec46bb12d1e4c0f71714a",
+          "topic": "Everything Science",
+          "locator": "page 472",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8333333358168602
+        },
+        {
+          "chunkId": "38c42b0277126cbb76b849f50d71bc1b2b843dea1415b75eabee83f94fa57ffb",
+          "topic": "Everything Science",
+          "locator": "page 470",
+          "sourceTitle": "Basic Science Text",
+          "documentId": "b681dc5f-42fd-4ebe-802d-c94e603bc5a1",
+          "hybridScore": 0.8333333358168602
+        }
+      ],
+      "retrievedChunkIds": [
+        "cb9fb6c70a726e6312f9961cfb20a22f8778a23607304cb83320f410e16ab906",
+        "e4dbe3679ebdb7ce29769be4256033c1e49eab37680091a37b0fef3b340536aa",
+        "8ea16008af000dd02685f8d882bbefca850e5d46d6baa3d0d18a7cb3d74b5894",
+        "fcf0ac5a39bd1393468a931dc95f2539df552fc2a20ec46bb12d1e4c0f71714a",
+        "38c42b0277126cbb76b849f50d71bc1b2b843dea1415b75eabee83f94fa57ffb"
+      ],
+      "retrievedTopics": [
+        "Everything Science"
+      ],
+      "retrievalScores": [
+        {
+          "chunkId": "cb9fb6c70a726e6312f9961cfb20a22f8778a23607304cb83320f410e16ab906",
+          "hybridScore": 0.8541666641831398
+        },
+        {
+          "chunkId": "e4dbe3679ebdb7ce29769be4256033c1e49eab37680091a37b0fef3b340536aa",
+          "hybridScore": 0.8541666641831398
+        },
+        {
+          "chunkId": "8ea16008af000dd02685f8d882bbefca850e5d46d6baa3d0d18a7cb3d74b5894",
+          "hybridScore": 0.8333333358168602
+        },
+        {
+          "chunkId": "fcf0ac5a39bd1393468a931dc95f2539df552fc2a20ec46bb12d1e4c0f71714a",
+          "hybridScore": 0.8333333358168602
+        },
+        {
+          "chunkId": "38c42b0277126cbb76b849f50d71bc1b2b843dea1415b75eabee83f94fa57ffb",
+          "hybridScore": 0.8333333358168602
+        }
+      ],
+      "expectedSourceHit": true,
+      "expectedChunkHit": false,
+      "refusalResult": {
+        "expected": true,
+        "actual": false,
+        "correct": false
+      },
+      "citationIntegrity": {
+        "structural": true,
+        "verifierJudgement": true,
+        "manualAuthorEvidenceReview": "not_reviewed"
+      },
+      "groundingVerifier": {
+        "reasons": [
+          "The retrieved curriculum supports the kinetic-energy term Eₖ, the expression ½mv², and that mechanical energy is the sum of gravitational potential and kinetic energy.",
+          "The statement relating kinetic energy to velocity is supported by the passage stating that an object's velocity gives its kinetic energy."
+        ],
+        "grounded": true,
+        "revisionGuidance": null,
+        "unsupportedClaims": [],
+        "checkedCitationIds": [
+          "8ea16008af000dd02685f8d882bbefca850e5d46d6baa3d0d18a7cb3d74b5894",
+          "38c42b0277126cbb76b849f50d71bc1b2b843dea1415b75eabee83f94fa57ffb"
+        ],
+        "revisionRecommended": false
+      },
+      "revisionCount": 0,
+      "stageLatenciesMs": {
+        "query-transformation": 1271,
+        "retrieval": 2651,
+        "tutor": 4025,
+        "verification": 7507
+      },
+      "totalLatencyMs": 30863,
+      "asrLatencyMs": null,
+      "yarnGptTts": {
+        "provider": "yarngpt",
+        "apiVersion": "v1",
+        "voice": "Chinenye",
+        "format": "mp3",
+        "latencyMs": 15342,
+        "synthesisSuccess": true,
+        "failureCode": null,
+        "outputByteCount": 188517,
+        "estimatedCost": null,
+        "pricingCurrency": "NGN",
+        "costStatus": "unavailable"
+      },
+      "tokenUsage": {
+        "input": 6234,
+        "total": 7219,
+        "output": 985
+      },
+      "estimatedCost": {
+        "status": "unavailable",
+        "knownSubtotalUsd": 0.02965812,
+        "estimatedTotal": null,
+        "currency": null,
+        "unavailableComponents": [
+          "yarngpt_tts"
+        ]
+      },
+      "safeError": null,
+      "reinforcementStatus": "not_evaluated"
+    }
+  ],
+  "scope": {
+    "evaluationType": "system-level",
+    "studentStudy": false,
+    "learningEffectivenessClaimed": false,
+    "verifierIsHumanValidation": false,
+    "manualAuthorReviewIncluded": false
+  }
+}
