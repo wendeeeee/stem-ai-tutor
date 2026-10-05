@@ -32,7 +32,6 @@ The current milestone provides:
 - Captioned deterministic screenshots, a local fallback recording, and a live
   ten-fixture evaluation result.
 
- [Link to voice output demo](https://github.com/user-attachments/assets/1ae42eaf-2810-48eb-8c15-c10058659039)
 
 ## Architecture
 
